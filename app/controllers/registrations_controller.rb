@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
       password: params['user']['password'],
       adresse: params['user']['adresse'],
       password_confirmation: params['user']['password_confirmation'],
-      role: params['user']['role']
+      role: params['user']['role'].to_i
 
     )
 
