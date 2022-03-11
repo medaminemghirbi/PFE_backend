@@ -27,9 +27,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_11_122628) do
     t.string "job"
     t.string "description"
     t.string "photo"
-    t.boolean "isadmin"
-    t.boolean "isclient"
-    t.boolean "isfreelancer"
+    t.boolean "isadmin", default: false
+    t.boolean "isclient", default: false
+    t.boolean "isfreelancer", default: false
     t.integer "earning"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

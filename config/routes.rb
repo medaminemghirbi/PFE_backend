@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   delete :logout, to: "sessions#logout"
   get :logged_in, to: "sessions#logged_in"
   resources :admin, only: [:create, :index, :update, :destroy]
-  
+
   root to: "static#home"
 end
