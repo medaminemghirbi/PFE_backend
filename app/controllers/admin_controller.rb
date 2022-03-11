@@ -11,6 +11,7 @@ class AdminController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:id])
     if @user.update(post_params)
       render json: @user
 
@@ -28,7 +29,7 @@ class AdminController < ApplicationController
 
 
   def post_params
-    params.require(:user).permit!
+    params.require(:user).permit! 
   end
 
   def set_post
