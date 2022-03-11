@@ -66,7 +66,7 @@ class AdminController < ApplicationController
 
 
   def post_params
-    params.require(:user).permit!
+    params.require(:user).permit! 
   end
 
   def set_post
