@@ -1,13 +1,12 @@
 class AdminController < ApplicationController
   def index
     @users = User.all
-    render json: @users
+    render json: @users, include: [:experiances]
   end
 
   def show
     @user = User.find(params[:id])
     render json: @user
-    
   end
 
   def update
@@ -27,9 +26,8 @@ class AdminController < ApplicationController
 
   private
 
-
   def post_params
-    params.require(:user).permit! 
+    params.require(:user).permit!
   end
 
   def set_post
