@@ -1,0 +1,3 @@
+class CLient < User
+
+end
