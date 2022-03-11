@@ -26,8 +26,8 @@ class AdminController < ApplicationController
    
     @user = User.find(params[:id])
     if @user.update(post_params)
-        render json: @user 
-   
+      render json: @user
+
     else
       render json: @user.errors, statut: :unprocessable_entity
     end
@@ -64,13 +64,12 @@ class AdminController < ApplicationController
     params.permit(:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo )
   end
 
-def set_post 
-    @user = User.find(params[:id])
-end  
 
-def post_params 
+  def post_params
     params.require(:user).permit!
-end
-end
+  end
 
-
+  def set_post
+    @user = User.find(params[:id])
+  end
+end
