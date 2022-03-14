@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   include CurrentUserConcern
+
   def create
     user = User
            .find_by(email: params['user']['email'])
@@ -22,7 +23,8 @@ class SessionsController < ApplicationController
       render json: {
         logged_in: true,
         user: @current_user
-      }
+        
+      }, include: [:educations]
     else
       render json: {
         logged_in: false
