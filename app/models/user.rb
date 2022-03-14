@@ -3,4 +3,5 @@ class User < ApplicationRecord
   validates_presence_of :email, :password, :firstname, :lastname
   validates_uniqueness_of :email
   has_many :educations
+  enum role: [:freelancer, :client,:admin ]
 end

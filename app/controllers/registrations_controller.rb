@@ -8,9 +8,8 @@ class RegistrationsController < ApplicationController
       password: params['user']['password'],
       adresse: params['user']['adresse'],
       password_confirmation: params['user']['password_confirmation'],
-      isclient: params['user']['isclient'],
-      isadmin: params['user']['isadmin'],
-      isfreelancer: params['user']['isfreelancer']
+      role: params['user']['role']
+
     )
 
     if user
