@@ -1,4 +1,6 @@
 class AdminController < ApplicationController
+  include CurrentUserConcern
+
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
