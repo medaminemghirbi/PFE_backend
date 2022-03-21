@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_14_205920) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_21_102726) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,8 +25,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_205920) do
     t.date "dateDebut"
     t.date "dateFin"
     t.string "ecole"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_educations_on_user_id"
   end
 
   create_table "experiences", force: :cascade do |t|
@@ -35,8 +37,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_205920) do
     t.string "jobType"
     t.string "description"
     t.string "entreprise"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_experiences_on_user_id"
   end
 
   create_table "missions", force: :cascade do |t|
@@ -48,16 +52,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_205920) do
     t.string "contrat"
     t.string "postulated"
     t.string "filepath"
+    t.bigint "user_id"
+    t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_missions_on_category_id"
+    t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.string "commentClient"
     t.string "commentFreelancer"
-    t.integer "id_mission"
+    t.bigint "mission_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["mission_id"], name: "index_reviews_on_mission_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -79,4 +90,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_205920) do
     t.integer "role"
   end
 
+  add_foreign_key "educations", "users"
+  add_foreign_key "experiences", "users"
+  add_foreign_key "missions", "categories"
+  add_foreign_key "missions", "users"
+  add_foreign_key "reviews", "missions"
+  add_foreign_key "reviews", "users"
 end
