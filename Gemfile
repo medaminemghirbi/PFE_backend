@@ -32,7 +32,7 @@ gem "bootsnap", require: false
 gem 'pry'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-
+gem 'byebug', '~> 9.0', '>= 9.0.6'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 

@@ -1,11 +1,11 @@
 class AdminController < ApplicationController
   include CurrentUserConcern
-
+ 
   def index
     if @current_user.role == "admin"
       @users = User.all
       render json: @users
-    else
+    else 
       render :json => 'you are not an admin'
     end
   end
