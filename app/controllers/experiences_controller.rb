@@ -23,7 +23,8 @@ class ExperiencesController < ApplicationController
     end
 
     def update
-        if @experience.update(post_params)
+        @experience = Experience.find(params[:id])
+        if @experience.update(post_params2)
         render json: @experience
 
         else
@@ -43,6 +44,11 @@ class ExperiencesController < ApplicationController
 
     def post_params
         params.require(:experience).permit!
+    end
+
+    def post_params2
+        # lazm tbaath kol shy fl update 
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id)
     end
 
     def set_post

@@ -3,12 +3,13 @@ class CategoriesController < ApplicationController
     # //////////////////////////////////  categories 
 
     def index
+        
         @categories = Category.all    #Change here
         render json: @categories
     end
 
     def create 
-        if @current_user.role == "admin"
+       
             @category = Category.new(post_params)
             if @category.save 
                 render json: @category   ,statut: :created, location: @category 
@@ -16,9 +17,7 @@ class CategoriesController < ApplicationController
             else
                 render json: @category.errors, statut: :unprocessable_entity
             end
-        else
-            render :json => 'you are not an admin'
-          end   
+        
     end   
 
     def show
@@ -28,17 +27,26 @@ class CategoriesController < ApplicationController
     end
 
     def update
-        if @category.update(post_params)
-        render json: @category
+        
+            @category = Category.find(params[:id])
+            if @category.update(post_params2)
+                render json: @category
 
-        else
-        render json: @category.errors, statut: :unprocessable_entity
-        end
+            else
+                render json: @category.errors, statut: :unprocessable_entity
+            end
+      
+       
     end
 
     def destroy
-        @category = Category.find(params[:id])
-        @category.destroy
+        
+            @category = Category.find(params[:id])
+            @category.destroy
+
+       
+
+        
     end
 
 
@@ -47,6 +55,11 @@ class CategoriesController < ApplicationController
 
     def post_params
         params.require(:category).permit!
+    end
+    
+    def post_params2
+        # lazm tbaath kol shy fl update 
+        params.permit(:name , :avatar)
     end
 
     #def post_params

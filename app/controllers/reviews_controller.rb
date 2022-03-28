@@ -2,7 +2,7 @@ class ReviewsController < ApplicationController
     include CurrentUserConcern
     def index
         @reviews = Review.all
-        render json: @reviews
+        render json: @reviews ,  include: [:mission , :user ]
     end
 
     def create 
@@ -22,7 +22,9 @@ class ReviewsController < ApplicationController
     end
 
     def update
-        if @review.update(post_params)
+        
+        @review = Review.find(params[:id])
+        if @review.update(post_params2)
         render json: @review
 
         else
@@ -42,6 +44,10 @@ class ReviewsController < ApplicationController
 
     def post_params
         params.require(:review).permit!
+    end
+    def post_params2
+        # lazm tbaath kol shy fl update 
+        params.permit(:commentClient , :commentFreelancer , :mission_id , :user_id)
     end
 
     def set_post

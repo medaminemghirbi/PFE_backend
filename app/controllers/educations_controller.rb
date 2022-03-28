@@ -23,7 +23,8 @@ class EducationsController < ApplicationController
     end
 
     def update
-        if @education.update(post_params)
+        @education = Education.find(params[:id])
+        if @education.update(post_params2)
         render json: @education
 
         else
@@ -43,6 +44,9 @@ class EducationsController < ApplicationController
 
     def post_params
         params.require(:education).permit!
+    end
+    def post_params2
+        params.permit(:dateDebut ,:dateFin , :ecole ,:user_id)
     end
 
     def set_post

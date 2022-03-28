@@ -4,7 +4,7 @@ class MissionsController < ApplicationController
 
     def index
         @missions = Mission.all
-        render json: @missions,  include: :user
+        render json: @missions,  include: :user 
     end
 
     def create 
@@ -24,7 +24,8 @@ class MissionsController < ApplicationController
     end
 
     def update
-        if @mission.update(post_params)
+        @mission = Mission.find(params[:id])
+        if @mission.update(post_params2)
         render json: @mission
 
         else
@@ -41,9 +42,13 @@ class MissionsController < ApplicationController
 
     private
 
-
     def post_params
         params.require(:mission).permit!
+    end
+
+    def post_params2
+        # lazm tbaath kol shy fl update 
+        params.permit(:title, :description, :duration, :beginingDate,:contrat,:completed,:postulated,:filepath,:user_id,:category_id )
     end
 
     def set_post
