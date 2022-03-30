@@ -4,6 +4,7 @@ class User < ApplicationRecord
   validates_uniqueness_of :email
   has_many :educations
   enum role: [:freelancer, :client,:admin ]
+  has_many :experiances
 
   #has_one_attached :avatar
 

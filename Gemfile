@@ -11,6 +11,8 @@ gem "pg", "~> 1.1"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
+gem 'pry', '~> 0.13.1'
+gem 'byebug', '~> 9.0', '>= 9.0.6'
 
 gem 'pry', '~> 0.13.1'
 gem 'byebug', '~> 9.0', '>= 9.0.6'
