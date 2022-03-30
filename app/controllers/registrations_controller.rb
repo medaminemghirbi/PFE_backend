@@ -8,7 +8,6 @@ class RegistrationsController < ApplicationController
       password: params['password'],
       password_confirmation: params['password_confirmation'],
       role: params['role'].to_i
-
     )
 
     if user

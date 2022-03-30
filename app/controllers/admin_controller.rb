@@ -18,15 +18,12 @@ class AdminController < ApplicationController
 
 
   def show
-  
-    @user = User.find(params[:id], current)
+    @user = User.find(params[:id])
     render json: @user
-  
+    
   end
 
   def update
-   
-    @user = User.find(params[:id])
     if @user.update(post_params)
       render json: @user
 
@@ -64,6 +61,11 @@ class AdminController < ApplicationController
 
   def post_paramsFreelancer
     params.permit(:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo )
+  end
+
+
+  def post_params
+    params.require(:user).permit!
   end
 
   def set_post
