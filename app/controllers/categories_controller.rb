@@ -3,13 +3,7 @@ class CategoriesController < ApplicationController
   # //////////////////////////////////  categories
 
   def index
-    
-    @categories = Category.all # Change here
-    @images =  @categories.flat_map{|category| category.avatar}
-    render json: {
-        categories: @categories,
-        images: @images
-    }
+    render json: Category.all, methods: [:image_url]  #Change here
   end
 
   def create
@@ -17,7 +11,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(post_params) 
     if @category.save
 
-      render json: @category, statut: :created, location: @category
+      render json: @category, methods: [:image_url], statut: :created, location: @category
 
     else
       render json: @category.errors, statut: :unprocessable_entity
