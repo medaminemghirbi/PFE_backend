@@ -2,25 +2,30 @@ class AdminController < ApplicationController
   include CurrentUserConcern
 
   def index
-    if @current_user.role == "admin"
-      @users = User.all
-      render json: @users
-    else
-      render :json => 'you are not an admin'
-    end
+    #if @current_user.role == "admin"
+      @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
+      render json: @users 
+      #User.all.select { |m| m.role == "freelancer" || m.role == "client" }
+    #else
+      #render :json => 'you are not an admin'
+    #end
   end
 
+  def getallfreelancers
+    @users = User.all.select { |m| m.role == "freelancer"  }
+    render json: @users 
+  end
+
+
   def show
-    if @current_user.role == "admin"
+  
     @user = User.find(params[:id], current)
     render json: @user
-  else
-    render :json => 'you are not an admin'
-  end
+  
   end
 
   def update
-    if @current_user.role == "admin"
+   
     @user = User.find(params[:id])
     if @user.update(post_params)
       render json: @user
@@ -28,24 +33,37 @@ class AdminController < ApplicationController
     else
       render json: @user.errors, statut: :unprocessable_entity
     end
-  else
-    render :json => 'you are not an admin'
+ 
   end
+
+  def updateFreelancer
+   
+    @user = User.find(params[:id])
+    if @user.update(post_paramsFreelancer)
+      render json: @user
+
+    else
+      render json: @user.errors, statut: :unprocessable_entity
+    end
+ 
   end
 
   def destroy
-    if @current_user.role == "admin"
+    
     @user = User.find(params[:id])
     @user.destroy
-  else
-    render :json => 'you are not an admin'
-  end
+  
   end
 
   private
 
   def post_params
     params.require(:user).permit!
+    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo)
+  end
+
+  def post_paramsFreelancer
+    params.permit(:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo )
   end
 
   def set_post
