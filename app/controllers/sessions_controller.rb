@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
         user_id: user.id ,
         role: user.role,
         user: user
-      }
+      },methods: [:image_url] 
     else
       render json: { status: 401 }
     end

@@ -1,6 +1,8 @@
 class AdminController < ApplicationController
   include CurrentUserConcern
 
+
+
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
@@ -55,7 +57,6 @@ class AdminController < ApplicationController
   private
 
   def post_params
-    params.require(:user).permit!
     params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo)
   end
 
@@ -64,9 +65,6 @@ class AdminController < ApplicationController
   end
 
 
-  def post_params
-    params.require(:user).permit!
-  end
 
   def set_post
     @user = User.find(params[:id])
