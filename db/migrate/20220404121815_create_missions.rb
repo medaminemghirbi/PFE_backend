@@ -1,4 +1,4 @@
-class AddTableMissions < ActiveRecord::Migration[7.0]
+class CreateMissions < ActiveRecord::Migration[7.0]
   def change
     create_table :missions do |t|
 
@@ -12,11 +12,12 @@ class AddTableMissions < ActiveRecord::Migration[7.0]
       t.string :filepath 
       t.integer :budget
 
-
+      t.belongs_to :language , foreign_key: true
       t.belongs_to :user, foreign_key: true
       t.belongs_to :category , foreign_key: true
 
       t.timestamps
+      
     end
   end
 end

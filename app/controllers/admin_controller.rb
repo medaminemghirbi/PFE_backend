@@ -1,6 +1,8 @@
 class AdminController < ApplicationController
   include CurrentUserConcern
 
+
+
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
@@ -35,7 +37,6 @@ class AdminController < ApplicationController
   end
 
   def updateFreelancer
-   
     @user = User.find(params[:id])
     if @user.update(post_paramsFreelancer)
       render json: @user
@@ -46,8 +47,7 @@ class AdminController < ApplicationController
  
   end
 
-  def destroy
-    
+  def destroy  
     @user = User.find(params[:id])
     @user.destroy
   

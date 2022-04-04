@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_31_131800) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -70,6 +70,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_131800) do
     t.index ["user_id"], name: "index_experiences_on_user_id"
   end
 
+  create_table "languages", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "missions", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -80,11 +86,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_131800) do
     t.string "postulated"
     t.string "filepath"
     t.integer "budget"
+    t.bigint "language_id"
     t.bigint "user_id"
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_missions_on_category_id"
+    t.index ["language_id"], name: "index_missions_on_language_id"
     t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
@@ -116,6 +124,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_131800) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role"
+    t.boolean "email_confirmed"
+    t.string "confirm_token"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -123,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_131800) do
   add_foreign_key "educations", "users"
   add_foreign_key "experiences", "users"
   add_foreign_key "missions", "categories"
+  add_foreign_key "missions", "languages"
   add_foreign_key "missions", "users"
-  add_foreign_key "reviews", "missions"
   add_foreign_key "reviews", "users"
 end
