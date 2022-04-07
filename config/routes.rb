@@ -9,9 +9,11 @@ Rails.application.routes.draw do
   delete :logout, to: "sessions#logout"
   get :logged_in, to: "sessions#logged_in"
   get :freelancers, to: "admin#getallfreelancers"
+  get :countall, to: "admin#countall"
   patch "/upadateFreelancer/:id", to: "admin#updateFreelancer"
   patch "/updateadmin/:id", to: "admin#update"
   
+  get "getuserexperiance/:user_id", to: "experiences#getuserexperiance"
   
   resources :admin, only: [:show, :create , :index, :update, :destroy]
 

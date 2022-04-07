@@ -38,6 +38,11 @@ class ExperiencesController < ApplicationController
     end
 
 
+    def getuserexperiance
+        @experiences = Experience.where(user_id: params[:user_id])
+        render json: @experiences
+    end
+
 
     private
 

@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
       user.email_confirmed = true
       user.confirm_token = nil
       user.save
-      render json: { status: 200 }
+      render json:  "Account Acctivated" 
 
       #flash[:success] = "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."
       #redirect_to signin_url

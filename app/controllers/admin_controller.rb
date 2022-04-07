@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
-      render json: @users 
+      render json: @users, methods: [:user_image_url] 
       #User.all.select { |m| m.role == "freelancer" || m.role == "client" }
     #else
       #render :json => 'you are not an admin'
@@ -26,6 +26,7 @@ class AdminController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:id])
     if @user.update(post_params)
       render json: @user
 
@@ -39,7 +40,7 @@ class AdminController < ApplicationController
    
     @user = User.find(params[:id])
     if @user.update(post_paramsFreelancer)
-      render json: @user
+      render json: @user, methods: [:user_image_url] 
 
     else
       render json: @user.errors, statut: :unprocessable_entity
@@ -54,14 +55,28 @@ class AdminController < ApplicationController
   
   end
 
+  def countall
+    @userscount = User.all.count
+    @missioncount = Mission.all.count
+    @categoriescount = Category.all.count
+    @reviewscount = Review.all.count
+    render json: {
+      userscount: @userscount,
+      missioncount: @missioncount,
+      categoriescount: @categoriescount,
+      reviewcount: @reviewscount
+
+    }
+  end
+
   private
 
   def post_params
-    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo)
+    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:avatar)
   end
 
   def post_paramsFreelancer
-    params.permit(:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:photo )
+    params.permit(:id ,:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:avatar )
   end
 
 
