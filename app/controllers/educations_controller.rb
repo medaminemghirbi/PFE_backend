@@ -37,6 +37,9 @@ class EducationsController < ApplicationController
         @education.destroy
     end
 
+    def getusereducation
+        
+    end 
 
 
     private
@@ -46,7 +49,7 @@ class EducationsController < ApplicationController
         params.require(:education).permit!
     end
     def post_params2
-        params.permit(:dateDebut ,:dateFin , :ecole ,:user_id)
+        params.permit(:dateDebut ,:dateFin , :ecole ,:freelancer_id)
     end
 
     def set_post

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_11_215728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,10 +52,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
     t.date "dateDebut"
     t.date "dateFin"
     t.string "ecole"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_educations_on_user_id"
+    t.integer "freelancer_id"
+    t.index ["freelancer_id"], name: "index_educations_on_freelancer_id"
   end
 
   create_table "experiences", force: :cascade do |t|
@@ -64,10 +64,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
     t.string "jobType"
     t.string "description"
     t.string "entreprise"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_experiences_on_user_id"
+    t.integer "freelancer_id"
+    t.index ["freelancer_id"], name: "index_experiences_on_freelancer_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -87,13 +87,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
     t.string "filepath"
     t.integer "budget"
     t.bigint "language_id"
-    t.bigint "user_id"
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "client_id"
+    t.integer "freelancer_id"
     t.index ["category_id"], name: "index_missions_on_category_id"
+    t.index ["client_id"], name: "index_missions_on_client_id"
+    t.index ["freelancer_id"], name: "index_missions_on_freelancer_id"
     t.index ["language_id"], name: "index_missions_on_language_id"
-    t.index ["user_id"], name: "index_missions_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -119,21 +121,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_04_121815) do
     t.integer "phone"
     t.string "job"
     t.string "description"
-    t.string "photo"
     t.integer "earning"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role"
     t.boolean "email_confirmed"
     t.string "confirm_token"
+    t.integer "language_id"
+    t.index ["language_id"], name: "index_users_on_language_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "educations", "users"
-  add_foreign_key "experiences", "users"
   add_foreign_key "missions", "categories"
   add_foreign_key "missions", "languages"
-  add_foreign_key "missions", "users"
   add_foreign_key "reviews", "users"
 end

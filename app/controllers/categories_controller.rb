@@ -1,9 +1,9 @@
 class CategoriesController < ApplicationController
   include CurrentUserConcern
-  # //////////////////////////////////  categories
+
 
   def index
-    render json: Category.all, methods: [:image_url]  #Change here
+    render json: Category.all.order(id: :ASC), methods: [:image_url]  #Change here
   end
 
   def create
@@ -45,7 +45,7 @@ class CategoriesController < ApplicationController
   end
 
   def post_params2
-    # lazm tbaath kol shy fl update
+    # tbaath kol shy fl update
     params.permit(:name, :avatar)
   end
 

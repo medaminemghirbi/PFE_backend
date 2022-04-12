@@ -1,33 +1,44 @@
 Rails.application.routes.draw do
-  
   resources :sessions, only: [:create]
-  resources :registrations, only: [:create, :confirm_email] do
+  resources :registrations, only: %i[create confirm_email] do
     member do
       get :confirm_email
     end
   end
-  delete :logout, to: "sessions#logout"
-  get :logged_in, to: "sessions#logged_in"
-  get :freelancers, to: "admin#getallfreelancers"
-  patch "/upadateFreelancer/:id", to: "admin#updateFreelancer"
-  patch "/updateadmin/:id", to: "admin#update"
-  
-  
-  resources :admin, only: [:show, :create , :index, :update, :destroy]
+  delete :logout, to: 'sessions#logout'
+  get :logged_in, to: 'sessions#logged_in'
+  get :freelancers, to: 'admin#getallfreelancers'
 
-  resources :missions, only: [:create, :index, :show , :update, :destroy]
+  get 'client/:client_id', to: 'admin#getclientmission'
+  get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
 
-  resources :categories, only: [:create, :index, :show , :update, :destroy]
+  get :countall, to: 'admin#countall'
 
-  resources :missions, only: [:create, :index, :show , :update, :destroy]
+  patch '/upadateFreelancer/:freelancer_id', to: 'admin#updateFreelancer'
+  patch '/updateclient/:client_id', to: 'admin#updateclient'
+  patch '/updateimagefreelancer/:freelancer_id', to: 'admin#updateimagefreelancer'
+  patch '/updateadmin/:id', to: 'admin#update'
 
-  resources :reviews, only: [:create, :index, :show , :update, :destroy]
+  get 'getuserexperiance/:freelancer_id', to: 'experiences#getuserexperiance'
 
-  resources :educations, only: [:create, :index, :show , :update, :destroy]
+  get 'getusereducation/:freelancer_id', to: 'educations#getusereducation'
 
-  resources :experiences, only: [:create, :index, :show , :update, :destroy]
+  resources :admin, only: %i[show create index update destroy]
 
-  resources :languages, only: [:create, :index, :show , :update, :destroy]
+  resources :missions, only: %i[create index show update destroy]
 
-  root to: "static#home"
+  resources :categories, only: %i[create index show update destroy]
+
+  resources :missions, only: %i[create index show update destroy]
+
+  resources :reviews, only: %i[create index show update destroy]
+
+  resources :educations, only: %i[create index show update destroy]
+
+  resources :experiences, only: %i[create index show update destroy]
+
+  resources :languages, only: %i[create index show update destroy]
+
+  root to: 'static#home'
+
 end

@@ -1,5 +1,5 @@
 class UserMailer < ApplicationMailer
-  default from: 'Freelancy@DevTeam.com'
+  default from: 'backRAILS@DevTeam.com'
 
 
   def registration_confirmation(user)

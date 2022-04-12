@@ -38,6 +38,11 @@ class ExperiencesController < ApplicationController
     end
 
 
+    def getuserexperiance
+        @experiences = Experience.where(user_id: params[:user_id])
+        render json: @experiences
+    end
+
 
     private
 
@@ -48,7 +53,7 @@ class ExperiencesController < ApplicationController
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:freelancer_id)
     end
 
     def set_post
