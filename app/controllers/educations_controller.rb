@@ -38,7 +38,8 @@ class EducationsController < ApplicationController
     end
 
     def getusereducation
-        
+        @educations = Education.where(freelancer_id: params[:freelancer_id])
+        render json: @educations  
     end 
 
 

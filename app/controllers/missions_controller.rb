@@ -43,7 +43,7 @@ class MissionsController < ApplicationController
     private
 
     def post_params
-        params.require(:mission).permit!
+        params.permit(:title, :description, :duration, :beginingDate,:budget , :client_id,:category_id )
     end
 
     def post_params2

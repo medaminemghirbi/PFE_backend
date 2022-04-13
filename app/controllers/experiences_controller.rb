@@ -39,8 +39,8 @@ class ExperiencesController < ApplicationController
 
 
     def getuserexperiance
-        @experiences = Experience.where(user_id: params[:user_id])
-        render json: @experiences
+        @experiences = Experience.where(freelancer_id: params[:freelancer_id])
+        render json: @experiences ,  include: :freelancer
     end
 
 
