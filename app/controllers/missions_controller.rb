@@ -4,7 +4,7 @@ class MissionsController < ApplicationController
 
     def index
         @missions = Mission.all
-        render json: @missions,  include: :user 
+        render json: @missions
     end
 
     def create 
@@ -43,12 +43,12 @@ class MissionsController < ApplicationController
     private
 
     def post_params
-        params.require(:mission).permit!
+        params.permit(:title, :description, :duration, :beginingDate,:budget , :client_id,:category_id )
     end
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:title, :description, :duration, :beginingDate,:contrat,:completed,:postulated,:filepath,:user_id,:category_id )
+        params.permit(:title, :description, :duration, :beginingDate,:contrat,:completed,:postulated,:filepath,:client_id,:freelancer_id,:category_id )
     end
 
     def set_post

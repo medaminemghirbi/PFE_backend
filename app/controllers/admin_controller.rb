@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
-      render json: @users, methods: [:user_image_url] 
+      render json: @users, methods: [:user_image_url] , include: [:experience, :education]
       #User.all.select { |m| m.role == "freelancer" || m.role == "client" }
     #else
       #render :json => 'you are not an admin'
@@ -15,8 +15,29 @@ class AdminController < ApplicationController
 
   def getallfreelancers
     @users = User.all.select { |m| m.role == "freelancer"  }
-    render json: @users 
+    render json: @users , methods: [:user_image_url] 
   end
+
+# 
+# def getallmission
+#    @clients =Client.where(role: "client")
+#    @missions = @clients.includes(:missions).flat_map(&:missions)
+ #    render json: {
+   #    clients:  @clients,
+   #    missions: @missions
+# }
+#   end
+def getclientmission
+  @missions = Mission.where(client_id: params[:client_id])
+  render json: @missions , include: [ :category  ]
+end
+def getfreelancermission
+  @missions = Mission.where(freelancer_id: params[:freelancer_id])
+  render json: {
+    mission: @missions
+  }
+end
+
 
 
   def show
@@ -47,7 +68,16 @@ class AdminController < ApplicationController
     end
  
   end
+  def updateclient
+    @user = User.find(params[:id])
+    if @user.update(post_params)
+      render json: @user, methods: [:user_image_url] 
 
+    else
+      render json: @user.errors, statut: :unprocessable_entity
+    end
+ 
+  end
   def destroy
     
     @user = User.find(params[:id])
@@ -60,23 +90,49 @@ class AdminController < ApplicationController
     @missioncount = Mission.all.count
     @categoriescount = Category.all.count
     @reviewscount = Review.all.count
+    @languagecount = Language.all.count
     render json: {
       userscount: @userscount,
       missioncount: @missioncount,
       categoriescount: @categoriescount,
-      reviewcount: @reviewscount
+      reviewcount: @reviewscount,
+      languagecount: @languagecount 
 
     }
+  end
+  def updateimagefreelancer
+   
+    @user = User.find(params[:id])
+    if @user.update(paramsimagefreelancer)
+      render json: @user, methods: [:user_image_url] 
+
+    else
+      render json: @user.errors, statut: :unprocessable_entity
+    end
+ 
+  end
+
+
+  def getfreelancerdata
+    @user = User.find(params[:id])
+    render json: @user, methods: [:user_image_url],  include: [:education, :experience]
+    
+  end
+
+
+  def paramsimagefreelancer
+
+    params.permit(:id, :avatar )
   end
 
   private
 
   def post_params
-    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:avatar)
+    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar)
   end
 
   def post_paramsFreelancer
-    params.permit(:id ,:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:rating,:phone,:job,:description,:avatar )
+    params.permit(:id ,:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar )
   end
 
 

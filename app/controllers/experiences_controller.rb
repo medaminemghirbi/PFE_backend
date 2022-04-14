@@ -7,7 +7,7 @@ class ExperiencesController < ApplicationController
     end
 
     def create 
-        @experience = Experience.new(post_params)
+        @experience = Experience.new(post_params2)
         if @experience.save 
             render json: @experience ,statut: :created, location: @experience 
        
@@ -47,13 +47,10 @@ class ExperiencesController < ApplicationController
     private
 
 
-    def post_params
-        params.require(:experience).permit!
-    end
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id, :langugage, :languagerating)
     end
 
     def set_post
