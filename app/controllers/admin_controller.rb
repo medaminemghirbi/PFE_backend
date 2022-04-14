@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
-      render json: @users, methods: [:user_image_url] , include: [:experience, :education]
+      render json: @users, methods: [:user_image_url]
       #User.all.select { |m| m.role == "freelancer" || m.role == "client" }
     #else
       #render :json => 'you are not an admin'
@@ -28,9 +28,15 @@ class AdminController < ApplicationController
 # }
 #   end
 
+
+  def getmissionbyfreelancer
+    @missions = Mission.where(freelancer_id: params[:freelancer_id])
+    render json: @missions , include: [  :category , :mission_languages , :languages ]
+  end
+
   def getclientmission
     @missions = Mission.where(client_id: params[:client_id])
-    render json: @missions , include: [ :category  ]
+    render json: @missions , include: [  :category , :mission_languages , :languages ]
   end
 
   def getfreelancermission
@@ -39,7 +45,6 @@ class AdminController < ApplicationController
       mission: @missions
     }
   end
-
 
 
   def show

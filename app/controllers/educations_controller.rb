@@ -7,7 +7,7 @@ class EducationsController < ApplicationController
     end
 
     def create 
-        @education = Education.new(post_params)
+        @education = Education.new(post_params2)
         if @education.save 
             render json: @education ,statut: :created, location: @education 
        
@@ -37,18 +37,15 @@ class EducationsController < ApplicationController
         @education.destroy
     end
 
-    def getusereducation
-        @educations = Education.where(freelancer_id: params[:freelancer_id])
-        render json: @educations  
-    end 
 
+    def getusereducation
+        @education = Education.where(freelancer_id: params[:freelancer_id])
+        render json: @education
+    end
 
     private
 
 
-    def post_params
-        params.require(:education).permit!
-    end
     def post_params2
         params.permit(:dateDebut ,:dateFin , :ecole ,:freelancer_id)
     end

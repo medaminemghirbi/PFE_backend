@@ -7,6 +7,8 @@ class Mission < ApplicationRecord
 
     belongs_to :category
 
-  #  belongs_to :language
+    has_many :mission_languages , dependent: :destroy
+
+    Mission.has_many :languages , through: :mission_languages
     
 end
