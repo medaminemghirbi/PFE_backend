@@ -4,13 +4,25 @@ class MissionsController < ApplicationController
 
     def index
         @missions = Mission.all
-        render json: @missions
+        render json: @missions  , include: [  :category , :mission_languages , :languages ]
     end
 
     def create 
+        
         @mission = Mission.new(post_params)
+          ids=[]
         if @mission.save 
-            render json: @mission ,statut: :created, location: @mission 
+            
+            params[:language_id].split(",").each do |lang_id|
+               ids.push(lang_id.to_i) 
+                @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i ,mission_id: @mission.id)
+              end
+
+            @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
+  
+            render json:  { 
+                mission: @mission,
+                missionlanguages: @missionlanguages },statut: :created, location: @mission 
        
         else
             render json: @mission.errors, statut: :unprocessable_entity
@@ -43,12 +55,13 @@ class MissionsController < ApplicationController
     private
 
     def post_params
-        params.permit(:title, :description, :duration, :beginingDate,:budget , :client_id,:category_id )
+        params.permit(:title, :description, :duration, :beginingDate,:budget , :client_id,:category_id , :mission_languages =>[:language_id] )
+        
     end
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:title, :description, :duration, :beginingDate,:contrat,:completed,:postulated,:filepath,:client_id,:freelancer_id,:category_id )
+        params.permit(:title, :description, :duration, :beginingDate,:client_id,:freelancer_id )
     end
 
     def set_post

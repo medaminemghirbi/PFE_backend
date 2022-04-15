@@ -28,7 +28,7 @@ Rails.application.routes.draw do
 
   resources :categories, only: %i[create index show update destroy]
 
-  resources :missions, only: %i[create index show update destroy]
+
 
   resources :reviews, only: %i[create index show update destroy]
 
