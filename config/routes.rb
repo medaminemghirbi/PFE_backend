@@ -10,13 +10,21 @@ Rails.application.routes.draw do
   get :freelancers, to: 'admin#getallfreelancers'
   get 'client/:client_id', to: 'admin#getclientmission'
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
-  get 'freelancerdata/:id', to: 'admin#getfreelancerdata'
+
+  get 'freelancerdata/:id', to: 'admin#getfreelancerdata' 
+
   get :countall, to: 'admin#countall'
   patch '/upadateFreelancer/:id', to: 'admin#updateFreelancer'
   patch '/updateclient/:id', to: 'admin#updateclient'
   patch '/updateimagefreelancer/:id', to: 'admin#updateimagefreelancer'
   patch '/updateadmin/:id', to: 'admin#update'
   
+  get 'getrequestbyfreelancer/:freelancer_id', to: 'requests#getrequestbyfreelancer'
+  get 'getrequestbyclient/:client_id', to: 'requests#getrequestbyclient'
+
+  get 'getmissionbylanguage/:language_id', to: 'missions#getmissionbylanguage'
+  get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
+  get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
 
   get 'getuserexperience/:freelancer_id', to: 'experiences#getuserexperiance'
 
@@ -39,6 +47,8 @@ Rails.application.routes.draw do
   resources :experiences, only: %i[create index show update destroy]
   
   resources :languages, only: %i[create index show update destroy]
+
+  resources :requests , only: %i[create index show update destroy]
 
   root to: 'static#home'
 

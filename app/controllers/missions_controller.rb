@@ -4,19 +4,21 @@ class MissionsController < ApplicationController
 
     def index
         @missions = Mission.all
-        render json: @missions  , include: [  :category , :mission_languages , :languages ]
+        render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
     end
 
     def create 
         
         @mission = Mission.new(post_params)
-          
+          ids=[]
         if @mission.save 
             
-            params[:language_id].pluck(:id).each do |lang_id|
-                @missionLanguages =MissionLanguage.create!( language_id: lang_id ,mission_id: @mission.id)
+            params[:language_id].split(",").each do |lang_id|
+               ids.push(lang_id.to_i) 
+                @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i ,mission_id: @mission.id)
               end
-            @missionlanguages = MissionLanguage.where(language_id: params[:language_id].pluck(:id) , mission_id: @mission.id )
+
+            @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
   
             render json:  { 
                 mission: @mission,
@@ -48,7 +50,20 @@ class MissionsController < ApplicationController
         @mission.destroy
     end
 
+    def getmissionbylanguage 
+        @missions = MissionLanguage.where(language_id: params[:language_id])
+        render json: @missions , include: [  :mission , :language ]
+    end
 
+    def getmissionbycategory 
+        @missions = Mission.where(category_id: params[:category_id])
+        render json: @missions , include: [  :category , :mission_languages , :languages , :client]
+    end
+
+    def getmissionbybudget     
+        @missions = Mission.where("budget <= ?" ,  params[:budget]).order('budget DESC')  
+        render json: @missions , include: [  :category , :mission_languages , :languages , :client]
+    end
 
     private
 

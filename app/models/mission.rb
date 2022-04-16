@@ -11,4 +11,5 @@ class Mission < ApplicationRecord
 
     Mission.has_many :languages , through: :mission_languages
     
+    has_many :requests
 end

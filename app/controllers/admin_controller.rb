@@ -12,12 +12,21 @@ class AdminController < ApplicationController
       #render :json => 'you are not an admin'
     #end
   end
-
+ 
   def getallfreelancers
     @users = User.all.select { |m| m.role == "freelancer"  }
     render json: @users , methods: [:user_image_url] 
   end
+  
+  def getfreelancerdata
+    @freelancer = Freelancer.where(id: params[:id])
+    render json: @freelancer 
+  end
 
+  def getmissionbyfreelancer
+    @missions = Mission.where(freelancer_id: params[:freelancer_id])
+    render json: @missions , include: [  :category , :mission_languages , :languages ]
+  end
 # 
 # def getmissionbyclient
 #    @clients =Client.where(role: "client")
@@ -29,10 +38,7 @@ class AdminController < ApplicationController
 #   end
 
 
-  def getmissionbyfreelancer
-    @missions = Mission.where(freelancer_id: params[:freelancer_id])
-    render json: @missions , include: [  :category , :mission_languages , :languages ]
-  end
+
 
   def getclientmission
     @missions = Mission.where(client_id: params[:client_id])
