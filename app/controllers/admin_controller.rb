@@ -6,20 +6,29 @@ class AdminController < ApplicationController
   def index
     #if @current_user.role == "admin"
       @users = User.all.select { |m| m.role == "freelancer" || m.role == "client" }
-      render json: @users, methods: [:user_image_url] , include: [:experience, :education]
+      render json: @users, methods: [:user_image_url]
       #User.all.select { |m| m.role == "freelancer" || m.role == "client" }
     #else
       #render :json => 'you are not an admin'
     #end
   end
-
+ 
   def getallfreelancers
     @users = User.all.select { |m| m.role == "freelancer"  }
     render json: @users , methods: [:user_image_url] 
   end
-
+  
+  def getfreelancerdata
+    @user = User.find(params[:id])
+    render json: @user, methods: [:user_image_url],  include: [:education, :experience]
+    
+  end
+  def getmissionbyfreelancer
+    @missions = Mission.where(freelancer_id: params[:freelancer_id])
+    render json: @missions , include: [  :category , :mission_languages , :languages ]
+  end
 # 
-# def getallmission
+# def getmissionbyclient
 #    @clients =Client.where(role: "client")
 #    @missions = @clients.includes(:missions).flat_map(&:missions)
  #    render json: {
@@ -27,17 +36,21 @@ class AdminController < ApplicationController
    #    missions: @missions
 # }
 #   end
-def getclientmission
-  @missions = Mission.where(client_id: params[:client_id])
-  render json: @missions , include: [ :category  ]
-end
-def getfreelancermission
-  @missions = Mission.where(freelancer_id: params[:freelancer_id])
-  render json: {
-    mission: @missions
-  }
-end
 
+
+
+
+  def getclientmission
+    @missions = Mission.where(client_id: params[:client_id])
+    render json: @missions , include: [  :category , :mission_languages , :languages ]
+  end
+
+  def getfreelancermission
+    @missions = Mission.where(freelancer_id: params[:freelancer_id])
+    render json: {
+      mission: @missions
+    }
+  end
 
 
   def show
@@ -89,14 +102,12 @@ end
     @userscount = User.all.count
     @missioncount = Mission.all.count
     @categoriescount = Category.all.count
-    @reviewscount = Review.all.count
     @languagecount = Language.all.count
     render json: {
       userscount: @userscount,
       missioncount: @missioncount,
       categoriescount: @categoriescount,
-      reviewcount: @reviewscount,
-      languagecount: @languagecount 
+      languagecount: @languagecount
 
     }
   end
@@ -111,15 +122,6 @@ end
     end
  
   end
-
-
-  def getfreelancerdata
-    @user = User.find(params[:id])
-    render json: @user, methods: [:user_image_url],  include: [:education, :experience]
-    
-  end
-
-
   def paramsimagefreelancer
 
     params.permit(:id, :avatar )

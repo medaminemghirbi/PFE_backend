@@ -10,17 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_14_234736) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_19_133531) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "Reqeuest", force: :cascade do |t|
-    t.integer "status", null: false
-    t.integer "mission_id"
-    t.integer "freelancer_id"
-    t.index ["freelancer_id"], name: "index_Reqeuest_on_freelancer_id"
-    t.index ["mission_id"], name: "index_Reqeuest_on_mission_id"
-  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -109,8 +101,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_14_234736) do
     t.datetime "updated_at", null: false
     t.integer "budget"
     t.integer "client_id"
+    t.integer "freelancer_id"
+    t.integer "requests_count", default: 0
     t.index ["category_id"], name: "index_missions_on_category_id"
     t.index ["client_id"], name: "index_missions_on_client_id"
+    t.index ["freelancer_id"], name: "index_missions_on_freelancer_id"
+  end
+
+  create_table "requests", force: :cascade do |t|
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "mission_id"
+    t.integer "freelancer_id"
+    t.index ["freelancer_id"], name: "index_requests_on_freelancer_id"
+    t.index ["mission_id", "freelancer_id"], name: "index_requests_on_mission_id_and_freelancer_id", unique: true
+    t.index ["mission_id"], name: "index_requests_on_mission_id"
   end
 
   create_table "reviews", force: :cascade do |t|

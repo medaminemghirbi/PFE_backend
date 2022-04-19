@@ -4,7 +4,7 @@ class MissionsController < ApplicationController
 
     def index
         @missions = Mission.all
-        render json: @missions  , include: [  :category , :mission_languages , :languages ]
+        render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
     end
 
     def create 
@@ -49,9 +49,28 @@ class MissionsController < ApplicationController
         @mission = Mission.find(params[:id])
         @mission.destroy
     end
+    #les filtres des pages home
+    def getmissionbylanguage 
+        @missions = MissionLanguage.where(language_id: params[:language_id])
+        render json: @missions , include: [  :mission , :language ]
+    end
+
+    def getmissionbycategory 
+        @missions = Mission.where(category_id: params[:category_id])
+        render json: @missions , include: [  :category , :mission_languages , :languages , :client]
+    end
+
+    def getmissionbybudget     
+        @missions = Mission.where("budget <= ?" ,  params[:budget]).order('budget DESC')  
+        render json: @missions , include: [  :category , :mission_languages , :languages , :client]
+    end
+    def getclientmission
+        @missions = Mission.where(client_id: params[:client_id])
+        render json: @missions , include: [  :category , :mission_languages , :languages]
+      end
 
 
-
+    
     private
 
     def post_params
@@ -67,5 +86,7 @@ class MissionsController < ApplicationController
     def set_post
         @mission = Mission.find(params[:id])
     end
+
+
 
 end
