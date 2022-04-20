@@ -17,13 +17,27 @@ class RequestsController < ApplicationController
         ids = []
         @mission = Mission.where(client_id:  params[:client_id] )
         @request = Request.where(mission_id: @mission.ids )
-        render json: {
-            request: @request ,
-        }   , include: [:mission , :freelancer ]
+        render json:  @request    , include: [:mission , :freelancer ]
         
     end
 ######################################################################################################
 
+    def getrequestacceptedbyclient
+        ids = []
+        @mission = Mission.where(client_id:  params[:client_id] )
+        @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
+  
+        render json:  @request     , include: [:mission , :freelancer ]
+    end
+    
+    def getrequestacceptedbyfreelancer
+        ids = []
+        @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
+        @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
+    
+        render json:  @request   , include: [:mission]   
+    end
+    
     def create       
         @request = Request.new(post_params)
         if @request.save 
@@ -66,12 +80,15 @@ class RequestsController < ApplicationController
         @request.destroy
     end
 
-
+    def countproposition  
+        @mission = Request.where(mission_id: params[:mission_id]).count
+        render json: @mission
+    end
 
     private
 
     def post_params
-        params.permit( :mission_id , :freelancer_id  )
+        params.permit( :mission_id , :freelancer_id )
         
     end
 

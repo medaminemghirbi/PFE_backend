@@ -64,6 +64,19 @@ class MissionsController < ApplicationController
         @missions = Mission.where("budget <= ?" ,  params[:budget]).order('budget DESC')  
         render json: @missions , include: [  :category , :mission_languages , :languages , :client]
     end
+    def getendedmissionbyclient 
+        ids = []
+        @mission = Mission.where(client_id:  params[:client_id] )
+        @status = Mission.where("completed = ?" , status = true )
+        render json:  @status  , include: [ :freelancer ]   
+    end
+
+    def getendedmissionbyfreelancer 
+        ids = []
+        @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
+        @status = Mission.where("completed = ?" , status = true )
+        render json:  @status  , include: [ :freelancer ]   
+    end
 
     private
 

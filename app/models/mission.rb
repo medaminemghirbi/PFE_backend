@@ -7,6 +7,9 @@ class Mission < ApplicationRecord
 
     belongs_to :category
 
+    attribute :completed, :boolean, default: false
+
+
     has_many :mission_languages , dependent: :destroy
 
     Mission.has_many :languages , through: :mission_languages

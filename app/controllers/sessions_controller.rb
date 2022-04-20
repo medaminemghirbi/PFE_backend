@@ -9,7 +9,11 @@ class SessionsController < ApplicationController
      if user
        
        session[:user_id] = user.id
+       session[:expires_at] = Time.current + 2.minutes
        render json: {
+         
+         expires_at: Time.current + 2.minutes ,
+
          status: :created,
          logged_in: true,
          user_id: user.id ,

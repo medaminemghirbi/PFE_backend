@@ -92,8 +92,7 @@ class AdminController < ApplicationController
  
   end
   def destroy
-    
-    @user = User.find(params[:id])
+    @user = Freelancer.find(params[:freelancer_id])
     @user.destroy
   
   end
