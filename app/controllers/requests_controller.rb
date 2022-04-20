@@ -65,8 +65,27 @@ class RequestsController < ApplicationController
       @request = Request.find(params[:id])
       @request.destroy
   end
+  def getrequestacceptedbyclient
+  
+      ids = []
+      @mission = Mission.where(client_id:  params[:client_id] )
+      @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
 
+      render json: {
+          status: @request ,
+      }   , include: [:mission]   
+  end
 
+  def getrequestacceptedbyfreelancer
+  
+    ids = []
+    @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
+    @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
+
+    render json: {
+        status: @request ,
+    }   , include: [:mission]   
+end
   def countproposition  
     
     @mission = Request.where(mission_id: params[:mission_id]).count

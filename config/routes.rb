@@ -27,9 +27,11 @@ Rails.application.routes.draw do
   get 'getrequestbyfreelancer/:freelancer_id', to: 'requests#getrequestbyfreelancer'
   get 'getrequestbyclient/:client_id', to: 'requests#getrequestbyclient'
   get 'getmissionbyfreelancer/:freelancer_id', to: 'admin#getmissionbyfreelancer'
-  
+  get 'activemission/:client_id', to: 'missions#getclientactivemission'
 
   get 'countrequest/:mission_id', to: 'requests#countproposition'
+  get 'getrequestacceptedbyclient/:client_id', to: 'requests#getrequestacceptedbyclient'
+  get 'getrequestacceptedbyfreelancer/:freelancer_id', to: 'requests#getrequestacceptedbyfreelancer'
   resources :admin, only: %i[show create index update destroy]
 
   resources :missions, only: %i[create index show update destroy]

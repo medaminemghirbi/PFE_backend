@@ -41,9 +41,12 @@ class AdminController < ApplicationController
 
 
   def getclientmission
-    @missions = Mission.where(client_id: params[:client_id])
+   @missions = Mission.where(client_id: params[:client_id])
     render json: @missions , include: [  :category , :mission_languages , :languages ]
   end
+
+
+
 
   def getfreelancermission
     @missions = Mission.where(freelancer_id: params[:freelancer_id])
