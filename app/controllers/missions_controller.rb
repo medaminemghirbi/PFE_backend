@@ -50,10 +50,19 @@ class MissionsController < ApplicationController
         @mission.destroy
     end
     #les filtres des pages home
-    def getmissionbylanguage 
-        @missions = MissionLanguage.where(language_id: params[:language_id])
-        render json: @missions , include: [  :mission , :language ]
-    end
+
+    
+    def getmissionbylanguage
+    
+        ids = []
+        params[:language_id].split(',').each do |lang_id|
+          ids.push(lang_id.to_i)
+        end
+        
+        @missions = MissionLanguage.where(language_id: ids.uniq)
+        @missions = @missions.flat_map(&:mission)
+        render json: @missions.uniq, include: [:category,:languages]
+      end
 
     def getmissionbycategory 
         @missions = Mission.where(category_id: params[:category_id])
@@ -68,7 +77,19 @@ class MissionsController < ApplicationController
         @missions = Mission.where(client_id: params[:client_id])
         render json: @missions , include: [  :category , :mission_languages , :languages]
       end
+      def getendedmissionbyclient 
+        ids = []
+        @mission = Mission.where(client_id:  params[:client_id] )
+        @status = Mission.where("completed = ?" , status = true )
+        render json:  @status  , include: [ :freelancer ]   
+    end
 
+    def getendedmissionbyfreelancer 
+        ids = []
+        @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
+        @status = Mission.where("completed = ?" , status = true )
+        render json:  @status  , include: [ :freelancer ]   
+    end
 
     
     private

@@ -106,11 +106,9 @@ class AdminController < ApplicationController
     @missioncount = Mission.all.count
     @categoriescount = Category.all.count
     @languagecount = Language.all.count
+  
     render json: {
-      userscount: @userscount,
-      missioncount: @missioncount,
-      categoriescount: @categoriescount,
-      languagecount: @languagecount
+      data:[ @userscount,@missioncount,@categoriescount,@languagecount]
 
     }
   end

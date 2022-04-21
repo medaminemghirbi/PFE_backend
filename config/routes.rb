@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get 'client/:client_id', to: 'admin#getclientmission'
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
   get 'freelancerdata/:id', to: 'admin#getfreelancerdata'
+  patch 'updatecompleted/:id', to: 'requests#updatecompleted'
+
 
   get :countall, to: 'admin#countall'
   patch '/upadateFreelancer/:id', to: 'admin#updateFreelancer'
@@ -28,7 +30,8 @@ Rails.application.routes.draw do
   get 'getrequestbyclient/:client_id', to: 'requests#getrequestbyclient'
   get 'getmissionbyfreelancer/:freelancer_id', to: 'admin#getmissionbyfreelancer'
   get 'activemission/:client_id', to: 'missions#getclientactivemission'
-
+  get 'getendedmissionbyclient/:client_id', to: 'missions#getendedmissionbyclient'
+  get 'getendedmissionbyfreelancer/:freelancer_id', to: 'missions#getendedmissionbyfreelancer'
   get 'countrequest/:mission_id', to: 'requests#countproposition'
   get 'getrequestacceptedbyclient/:client_id', to: 'requests#getrequestacceptedbyclient'
   get 'getrequestacceptedbyfreelancer/:freelancer_id', to: 'requests#getrequestacceptedbyfreelancer'
