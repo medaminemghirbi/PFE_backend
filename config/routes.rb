@@ -20,10 +20,13 @@ Rails.application.routes.draw do
   patch '/updateadmin/:id', to: 'admin#update'
   
   get 'countrequest/:mission_id', to: 'requests#countproposition'
-  
 
   get 'getrequestacceptedbyclient/:client_id', to: 'requests#getrequestacceptedbyclient'
   get 'getendedmissionbyclient/:client_id', to: 'missions#getendedmissionbyclient'
+  
+
+  patch 'updatecompleted/:id', to: 'requests#updatecompleted'
+  delete 'deleterequestbyfreelancer/:id', to: 'requests#deleterequestbyfreelancer'
 
   get 'getrequestacceptedbyfreelancer/:freelancer_id', to: 'requests#getrequestacceptedbyfreelancer'
   get 'getendedmissionbyfreelancer/:freelancer_id', to: 'missions#getendedmissionbyfreelancer'

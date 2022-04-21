@@ -97,19 +97,20 @@ class AdminController < ApplicationController
   
   end
 
+
   def countall
     @userscount = User.all.count
     @missioncount = Mission.all.count
     @categoriescount = Category.all.count
-    @reviewscount = Review.all.count
+    @languagecount = Language.all.count
+  
     render json: {
-      userscount: @userscount,
-      missioncount: @missioncount,
-      categoriescount: @categoriescount,
-      reviewcount: @reviewscount
+      data:[ @userscount,@missioncount,@categoriescount,@languagecount]
 
     }
+    
   end
+
   def updateimagefreelancer
    
     @user = User.find(params[:id])

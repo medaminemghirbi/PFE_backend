@@ -7,12 +7,10 @@ class MissionsController < ApplicationController
         render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
     end
 
-    def create 
-        
+    def create    
         @mission = Mission.new(post_params)
           ids=[]
-        if @mission.save 
-            
+        if @mission.save         
             params[:language_id].split(",").each do |lang_id|
                ids.push(lang_id.to_i) 
                 @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i ,mission_id: @mission.id)
@@ -28,6 +26,20 @@ class MissionsController < ApplicationController
             render json: @mission.errors, statut: :unprocessable_entity
         end    
     end   
+
+    def getmissionbylanguage
+    
+        ids = []
+        params[:language_id].split(',').each do |lang_id|
+          ids.push(lang_id.to_i)
+        end
+        
+        @mission_languages = MissionLanguage.where(language_id: ids.uniq)
+        
+        @missions=  @mission_languages.flat_map{|ml| ml.mission if ids.uniq.to_s.include?(ml.mission.languages.pluck(:id).to_s) && ml.mission !=nil}
+        
+        render json: @missions.uniq, include: [:category,:languages]
+      end
 
     def show
         @mission = Mission.find(params[:id])
@@ -50,10 +62,8 @@ class MissionsController < ApplicationController
         @mission.destroy
     end
 
-    def getmissionbylanguage 
-        @missions = MissionLanguage.where(language_id: params[:language_id])
-        render json: @missions , include: [  :mission , :language ]
-    end
+
+
 
     def getmissionbycategory 
         @missions = Mission.where(category_id: params[:category_id])
@@ -64,6 +74,7 @@ class MissionsController < ApplicationController
         @missions = Mission.where("budget <= ?" ,  params[:budget]).order('budget DESC')  
         render json: @missions , include: [  :category , :mission_languages , :languages , :client]
     end
+
     def getendedmissionbyclient 
         ids = []
         @mission = Mission.where(client_id:  params[:client_id] )

@@ -35,7 +35,7 @@ class RequestsController < ApplicationController
         @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
         @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
     
-        render json:  @request   , include: [:mission]   
+        render json:  @request   , include: [:mission , :freelancer]   
     end
     
     def create       
@@ -58,9 +58,7 @@ class RequestsController < ApplicationController
     end
 
     def update
-        @request = Request.find(params[:id])
-
-        
+        @request = Request.find(params[:id])  
         if @request.update(post_params2)
             @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).update(freelancer_id: @request.freelancer_id)
 
@@ -74,6 +72,28 @@ class RequestsController < ApplicationController
         render json: @request.errors, statut: :unprocessable_entity
         end
     end
+
+    def updatecompleted 
+        @request = Request.find(params[:id])  
+        @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).where(freelancer_id: @request.freelancer_id)
+
+
+        if @requestfreelancer.update(post_params3)
+            render json:   @requestfreelancer 
+
+        else
+        render json: @request.errors, statut: :unprocessable_entity
+        end
+    end
+
+    def deleterequestbyfreelancer
+        @request = Request.find(params[:id])
+
+        @requestfreelancer = Request.where('status != ? ', status = 1 )
+
+        @requestfreelancer.destroy(id: params[:id])
+    end
+
 
     def destroy
         @request = Request.find(params[:id])
@@ -95,6 +115,11 @@ class RequestsController < ApplicationController
     def post_params2
         # lazm tbaath kol shy fl update 
         params.permit(:status ,:mission_id , :freelancer_id )
+    end
+
+    def post_params3
+        # lazm tbaath kol shy fl update 
+        params.permit(:completed )
     end
 
     def set_post
