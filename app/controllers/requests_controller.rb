@@ -7,7 +7,7 @@ class RequestsController < ApplicationController
         @requests = Request.all
         render json: @requests  , include: [  :mission , :freelancer ]
     end 
-
+##################################################################################################
     def getrequestbyfreelancer  
         @requests = Request.where(freelancer_id: params[:freelancer_id])
         render json: @requests , include: [  :mission , :freelancer ]
@@ -25,19 +25,22 @@ class RequestsController < ApplicationController
     def getrequestacceptedbyclient
         ids = []
         @mission = Mission.where(client_id:  params[:client_id] )
+        
         @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
-  
+
         render json:  @request     , include: [:mission , :freelancer ]
     end
-    
+
     def getrequestacceptedbyfreelancer
         ids = []
         @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
-        @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
-    
+        
+        @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 ).where(freelancer_id:  params[:freelancer_id] )
+
         render json:  @request   , include: [:mission , :freelancer]   
     end
-    
+
+###################################################################################################
     def create       
         @request = Request.new(post_params)
         if @request.save 
@@ -50,13 +53,13 @@ class RequestsController < ApplicationController
             render json: @request.errors, statut: :unprocessable_entity
         end    
     end   
-
+######################################################################################################""
     def show
         @request = Request.find(params[:id])
         render json: @request
         
     end
-
+##################################################
     def update
         @request = Request.find(params[:id])  
         if @request.update(post_params2)
@@ -72,34 +75,24 @@ class RequestsController < ApplicationController
         render json: @request.errors, statut: :unprocessable_entity
         end
     end
-
+###################################################################################################
     def updatecompleted 
         @request = Request.find(params[:id])  
-        @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).where(freelancer_id: @request.freelancer_id)
+    @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).where(freelancer_id: @request.freelancer_id)
+    if @requestfreelancer.update(post_params3) 
+        render json:   @requestfreelancer , include: [:freelancer , :category]
 
-
-        if @requestfreelancer.update(post_params3)
-            render json:   @requestfreelancer 
-
-        else
-        render json: @request.errors, statut: :unprocessable_entity
-        end
+    else
+    render json: @requestfreelancer.errors, statut: :unprocessable_entity
     end
-
-    def deleterequestbyfreelancer
-        @request = Request.find(params[:id])
-
-        @requestfreelancer = Request.where('status != ? ', status = 1 )
-
-        @requestfreelancer.destroy(id: params[:id])
     end
-
+####################################################################################################
 
     def destroy
         @request = Request.find(params[:id])
         @request.destroy
     end
-
+########################################################################################################
     def countproposition  
         @mission = Request.where(mission_id: params[:mission_id]).count
         render json: @mission
@@ -119,7 +112,7 @@ class RequestsController < ApplicationController
 
     def post_params3
         # lazm tbaath kol shy fl update 
-        params.permit(:completed )
+        params.permit(:completed , :filepath )
     end
 
     def set_post

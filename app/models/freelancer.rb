@@ -6,6 +6,6 @@ class Freelancer < User
 
   has_many :requests 
   
-  belongs_to :language 
+  belongs_to :language  
 
 end

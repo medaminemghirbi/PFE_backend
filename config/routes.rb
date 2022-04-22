@@ -14,9 +14,10 @@ Rails.application.routes.draw do
   get 'freelancerdata/:id', to: 'admin#getfreelancerdata' 
 
   get :countall, to: 'admin#countall'
-  patch '/upadateFreelancer/:freelancer_id', to: 'admin#updateFreelancer'
-  patch '/updateclient/:client_id', to: 'admin#updateclient'
-  patch '/updateimagefreelancer/:freelancer_id', to: 'admin#updateimagefreelancer'
+
+  patch '/updateFreelancer/:id', to: 'admin#updateFreelancer'
+  patch '/updateclient/:id', to: 'admin#updateclient'
+  patch '/updateimagefreelancer/:id', to: 'admin#updateimagefreelancer'
   patch '/updateadmin/:id', to: 'admin#update'
   
   get 'countrequest/:mission_id', to: 'requests#countproposition'
@@ -43,7 +44,7 @@ Rails.application.routes.draw do
   get 'getusereducation/:freelancer_id', to: 'educations#getusereducation'
   
   get 'getmissionbyfreelancer/:freelancer_id', to: 'admin#getmissionbyfreelancer'
-  delete 'admin/:freelancer_id', to: 'admin#destroy'
+  delete 'admin/:id', to: 'admin#destroy'
 
   resources :admin, only: %i[show create index update]
 

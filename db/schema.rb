@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_19_205041) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_22_014157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -149,6 +149,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_19_205041) do
     t.boolean "email_confirmed"
     t.string "confirm_token"
     t.integer "language_id"
+    t.string "github"
+    t.string "facebook"
+    t.string "instagram"
+    t.string "linkedin"
     t.index ["language_id"], name: "index_users_on_language_id"
   end
 

@@ -8,11 +8,11 @@ class User < ApplicationRecord
   
   validates_uniqueness_of :email
 
-  has_many :educations, dependent: :destroy
+  has_many :educations  #, dependent: :destroy
 
   enum role: [:freelancer, :client,:admin ]
 
-  has_many :experiences , dependent: :destroy
+  has_many :experiences  #, dependent: :destroy
 
   has_one_attached :avatar
 

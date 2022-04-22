@@ -91,8 +91,9 @@ class AdminController < ApplicationController
     end
  
   end
+
   def destroy
-    @user = Freelancer.find(params[:freelancer_id])
+    @user = User.find(params[:id])
     @user.destroy
   
   end
@@ -111,7 +112,7 @@ class AdminController < ApplicationController
     
   end
 
-  def updateimagefreelancer
+   def updateimagefreelancer
    
     @user = User.find(params[:id])
     if @user.update(paramsimagefreelancer)
@@ -130,14 +131,12 @@ class AdminController < ApplicationController
   private
 
   def post_params
-    params.permit(:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar)
+    params.permit(:email  , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar,:github , :facebook,:instagram,:linkedin)
   end
 
   def post_paramsFreelancer
-    params.permit(:id ,:earning ,:email , :password , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar )
+    params.permit(:id ,:earning ,:email , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar ,:github , :facebook,:instagram,:linkedin)
   end
-
-
 
   def set_post
     @user = User.find(params[:id])
