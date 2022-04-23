@@ -3,6 +3,6 @@ class Client < User
   validates_presence_of :role, presence: true, default: 'client'
   validates_uniqueness_of :email
 
-  has_many :missions , dependent: :destroy
+  has_many :missions  , dependent: :destroy
 
 end

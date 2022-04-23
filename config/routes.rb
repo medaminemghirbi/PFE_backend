@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
 
   get 'freelancerdata/:id', to: 'admin#getfreelancerdata' 
+  get 'missiondata/:id', to: 'admin#getmissiondata' 
 
   get :countall, to: 'admin#countall'
 
@@ -39,14 +40,20 @@ Rails.application.routes.draw do
   get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
   get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
 
-  get 'getuserexperience/:freelancer_id', to: 'experiences#getuserexperiance'
+   
+  get 'getfreelancerbylanguage/:langugage', to: 'experiences#getfreelancerbylanguage'
 
-  get 'getusereducation/:freelancer_id', to: 'educations#getusereducation'
+  get 'getuserexperiance/:user_id', to: 'experiences#getuserexperiance'
+
+  get 'getusereducation/:user_id', to: 'educations#getusereducation'
   
   get 'getmissionbyfreelancer/:freelancer_id', to: 'admin#getmissionbyfreelancer'
+
   delete 'admin/:id', to: 'admin#destroy'
 
-  resources :admin, only: %i[show create index update]
+  delete 'deleteclient/:client_id', to: 'admin#destroyclient'
+
+  resources :admin, only: %i[show create index update destroy ]
 
   resources :missions, only: %i[create index show update destroy]
 

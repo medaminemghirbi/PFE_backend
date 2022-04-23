@@ -8,13 +8,13 @@ class User < ApplicationRecord
   
   validates_uniqueness_of :email
 
-  has_many :educations  #, dependent: :destroy
+  has_many :educations  , dependent: :destroy
 
   enum role: [:freelancer, :client,:admin ]
 
-  has_many :experiences  #, dependent: :destroy
+  has_many :experiences  , dependent: :destroy
 
-  has_one_attached :avatar
+  has_one_attached :avatar , dependent: :destroy 
 
   def user_image_url
     #Get the URL of the associated image

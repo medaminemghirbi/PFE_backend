@@ -18,9 +18,13 @@ class AdminController < ApplicationController
     render json: @users , methods: [:user_image_url] 
   end
   
+  def getmissiondata
+    @mission = Mission.where(id: params[:id])
+    render json: @mission , include: [:category , :client  , :mission_languages , :languages  ]
+  end
   def getfreelancerdata
     @freelancer = Freelancer.where(id: params[:id])
-    render json: @freelancer 
+    render json: @freelancer , methods: [:user_image_url]
   end
 
   def getmissionbyfreelancer
@@ -62,7 +66,7 @@ class AdminController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.update(post_params)
-      render json: @user
+      render json: @user , methods: [:user_image_url] 
 
     else
       render json: @user.errors, statut: :unprocessable_entity
@@ -97,8 +101,13 @@ class AdminController < ApplicationController
     @user.destroy
   
   end
-
-
+#############################################
+  def destroyclient 
+    @user = Client.find(params[:client_id])
+    @user.destroy
+  
+  end
+#############################################
   def countall
     @userscount = User.all.count
     @missioncount = Mission.all.count

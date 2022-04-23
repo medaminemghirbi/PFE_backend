@@ -76,14 +76,14 @@ class MissionsController < ApplicationController
     end
 
     def getendedmissionbyclient 
-        ids = []
+        #ids = []
         @mission = Mission.where(client_id:  params[:client_id] ).where("completed = ?" , status = true )
        # @status = Mission.where("completed = ?" , status = true )
         render json:  @mission  , include: [ :freelancer , :client ]   
     end
 
     def getendedmissionbyfreelancer 
-        ids = []
+       # ids = []
         @mission = Mission.where(freelancer_id:  params[:freelancer_id] ).where("completed = ?" , status = true )
         #@status = Mission.where("completed = ?" , status = true )
         render json:  @mission  , include: [ :freelancer , :client ]   

@@ -6,8 +6,8 @@ class RegistrationsController < ApplicationController
       user.email_confirmed = true
       user.confirm_token = nil
       user.save
-      render json:  "Account Acctivated" 
-
+      #render json:  "Account Acctivated" 
+      redirect_to 'http://localhost:4200/login'
       #flash[:success] = "Welcome to the Sample App! Your email has been confirmed.Please sign in to continue."
       #redirect_to signin_url
     else
@@ -35,6 +35,7 @@ class RegistrationsController < ApplicationController
       #flash[:success] = "Please confirm your email address to continue"
       
       session[:user_id] = user.id
+    user = User.last.avatar.attach(io: File.open("#{Rails.root}/app/assets/images/defaut.jpeg"),filename: 'defaut.jpeg', content_type: 'image/jpeg')
 
       render json: {
         status: :created,

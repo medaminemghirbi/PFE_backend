@@ -39,21 +39,25 @@ class ExperiencesController < ApplicationController
 
 
     def getuserexperiance
-        @experiences = Experience.where(freelancer_id: params[:freelancer_id])
-        render json: @experiences ,  include: :freelancer
+        @experiences = Experience.where(user_id: params[:user_id])
+        render json: @experiences ,  include: :user
     end
 
+    def getfreelancerbylanguage
+        @freelancers = Experience.where(langugage: params[:langugage])
+        render json: @freelancers , include: [  :user]  
+    end
 
     private
 
 
     def post_params
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:freelancer_id , :langugage, :languagerating)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id , :langugage, :languagerating)
     end
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:freelancer_id , :langugage, :languagerating)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id , :langugage, :languagerating)
     end
 
     def set_post

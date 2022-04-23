@@ -4,8 +4,8 @@ class Freelancer < User
   validates_presence_of :role, presence: true, default: 'freelancer'
   validates_uniqueness_of :email
 
-  has_many :requests 
+  has_many :requests , dependent: :destroy
   
-  belongs_to :language  
+  #belongs_to :language  
 
 end

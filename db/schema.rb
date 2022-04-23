@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_22_014157) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_22_140511) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -54,8 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_014157) do
     t.string "ecole"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "freelancer_id"
-    t.index ["freelancer_id"], name: "index_educations_on_freelancer_id"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_educations_on_user_id"
   end
 
   create_table "experiences", force: :cascade do |t|
@@ -66,10 +66,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_014157) do
     t.string "entreprise"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "freelancer_id"
     t.string "langugage"
     t.integer "languagerating"
-    t.index ["freelancer_id"], name: "index_experiences_on_freelancer_id"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_experiences_on_user_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -148,12 +148,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_014157) do
     t.integer "role"
     t.boolean "email_confirmed"
     t.string "confirm_token"
-    t.integer "language_id"
     t.string "github"
     t.string "facebook"
     t.string "instagram"
     t.string "linkedin"
-    t.index ["language_id"], name: "index_users_on_language_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

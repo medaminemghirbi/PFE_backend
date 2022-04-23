@@ -39,15 +39,15 @@ class EducationsController < ApplicationController
 
 
     def getusereducation
-        @education = Education.where(freelancer_id: params[:freelancer_id])
-        render json: @education
+        @education = Education.where(user_id: params[:user_id])
+        render json: @education ,  include: :user
     end
 
     private
 
 
     def post_params2
-        params.permit(:dateDebut ,:dateFin , :ecole ,:freelancer_id)
+        params.permit(:dateDebut ,:dateFin , :ecole ,:user_id)
     end
 
     def set_post
