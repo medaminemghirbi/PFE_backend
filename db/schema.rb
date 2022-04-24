@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_22_140511) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_140511) do
     t.integer "client_id"
     t.integer "freelancer_id"
     t.integer "requests_count", default: 0
+    t.integer "reviews_count", default: 0
     t.index ["category_id"], name: "index_missions_on_category_id"
     t.index ["client_id"], name: "index_missions_on_client_id"
     t.index ["freelancer_id"], name: "index_missions_on_freelancer_id"
@@ -152,6 +153,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_22_140511) do
     t.string "facebook"
     t.string "instagram"
     t.string "linkedin"
+    t.integer "reviews_count", default: 0
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

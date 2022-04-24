@@ -15,4 +15,8 @@ class Mission < ApplicationRecord
     Mission.has_many :languages , through: :mission_languages
     
     has_many :requests , dependent: :destroy
+
+    has_many :reviews , dependent: :destroy
+    validates :reviews_count, :inclusion => { :in => 0..10 }
+
 end

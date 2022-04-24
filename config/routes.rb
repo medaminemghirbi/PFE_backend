@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   
   get 'countrequest/:mission_id', to: 'requests#countproposition'
 
+  get 'ratingfreelancer/:user_id', to: 'reviews#ratingfreelancer'
+  get 'ratingclient/:user_id', to: 'reviews#ratingclient'
+
   get 'getrequestacceptedbyclient/:client_id', to: 'requests#getrequestacceptedbyclient'
   get 'getendedmissionbyclient/:client_id', to: 'missions#getendedmissionbyclient'
   

@@ -37,13 +37,21 @@ class ReviewsController < ApplicationController
         @review.destroy
     end
 
+    def ratingclient 
+        @review = Review.where(user_id: params[:user_id]).count
+        render json: @review
+    end
 
+    def ratingfreelancer 
+        @review = Review.where(user_id: params[:user_id]).count
+        render json: @review
+    end
 
     private
 
 
     def post_params
-        params.require(:review).permit!
+        params.permit(:mission_id , :user_id)
     end
     def post_params2
         # lazm tbaath kol shy fl update 

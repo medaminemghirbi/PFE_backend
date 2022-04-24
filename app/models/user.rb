@@ -16,6 +16,9 @@ class User < ApplicationRecord
 
   has_one_attached :avatar , dependent: :destroy 
 
+  has_many :reviews , dependent: :destroy
+  validates :reviews_count, :inclusion => { :in => 0..10 }
+
   def user_image_url
     #Get the URL of the associated image
     avatar.attached? ? url_for(avatar) : nil
