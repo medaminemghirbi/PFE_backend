@@ -22,11 +22,23 @@ class AdminController < ApplicationController
     @mission = Mission.where(id: params[:id])
     render json: @mission , include: [:category , :client  , :mission_languages , :languages  ]
   end
+
   def getfreelancerdata
     @freelancer = Freelancer.where(id: params[:id])
     render json: @freelancer , methods: [:user_image_url]
   end
+  
+  def getfreelancersbyrating   
+    @freelancer = User.where("reviews_count <= ?" ,  params[:reviews_count]).where('role = ? ' , role = 0 ) 
+    #@users = User.where('role = ? ' ,  role = "freelancer") 
+    #@freelancers = User.where('role = ? ' , role = 0 ) 
+    render json:  @freelancer , methods: [:user_image_url]
+  end
 
+  def getclientdata
+    @client = Client.where(id: params[:id])
+    render json: @client , methods: [:user_image_url]
+  end
   def getmissionbyfreelancer
     @missions = Mission.where(freelancer_id: params[:freelancer_id])
     render json: @missions , include: [  :category , :mission_languages , :languages ]
@@ -71,7 +83,6 @@ class AdminController < ApplicationController
   end
 
   def updateFreelancer
-   
     @user = User.find(params[:id])
     if @user.update(post_paramsFreelancer)
       render json: @user, methods: [:user_image_url] 

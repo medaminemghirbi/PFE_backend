@@ -11,8 +11,11 @@ Rails.application.routes.draw do
   get 'client/:client_id', to: 'admin#getclientmission'
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
 
+  get 'clientdata/:id', to: 'admin#getclientdata' 
   get 'freelancerdata/:id', to: 'admin#getfreelancerdata' 
   get 'missiondata/:id', to: 'admin#getmissiondata' 
+
+  get 'freelancersbyrating/:reviews_count', to: 'admin#getfreelancersbyrating'
 
   get :countall, to: 'admin#countall'
 
@@ -42,8 +45,9 @@ Rails.application.routes.draw do
   get 'getmissionbylanguage/:language_id', to: 'missions#getmissionbylanguage'
   get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
   get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
+  
 
-   
+
   get 'getfreelancerbylanguage/:langugage', to: 'experiences#getfreelancerbylanguage'
 
   get 'getuserexperiance/:user_id', to: 'experiences#getuserexperiance'
