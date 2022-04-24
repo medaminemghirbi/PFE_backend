@@ -35,9 +35,9 @@ class MissionsController < ApplicationController
         if @mission.update(post_params2)  
             params[:language_id].split(",").each do |lang_id|
                 ids.push(lang_id.to_i) 
-                 @missionLanguages =MissionLanguage.update!( language_id: lang_id.to_i ,mission_id: @mission.id)
+                 @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i , mission_id: @mission.id)
                end
-               @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
+               #@missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
                render json:  { 
                 mission: @mission,
                 missionlanguages: @missionlanguages }
