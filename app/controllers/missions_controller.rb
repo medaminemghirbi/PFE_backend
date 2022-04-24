@@ -7,6 +7,12 @@ class MissionsController < ApplicationController
         render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
     end
 
+    def show
+        @mission = Mission.find(params[:id])
+        render json: @mission
+        
+    end
+
     def create    
         @mission = Mission.new(post_params)
           ids=[]
@@ -15,17 +21,31 @@ class MissionsController < ApplicationController
                ids.push(lang_id.to_i) 
                 @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i ,mission_id: @mission.id)
               end
-
             @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
-  
             render json:  { 
                 mission: @mission,
                 missionlanguages: @missionlanguages },statut: :created, location: @mission 
-       
         else
             render json: @mission.errors, statut: :unprocessable_entity
         end    
     end   
+    def update
+        ids=[]
+        @mission = Mission.find(params[:id])
+        if @mission.update(post_params2)  
+            params[:language_id].split(",").each do |lang_id|
+                ids.push(lang_id.to_i) 
+                 @missionLanguages =MissionLanguage.update!( language_id: lang_id.to_i ,mission_id: @mission.id)
+               end
+               @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
+               render json:  { 
+                mission: @mission,
+                missionlanguages: @missionlanguages }
+        else
+        render json: @mission.errors, statut: :unprocessable_entity
+        end
+    end
+
 
     def getmissionbylanguage
     
@@ -41,29 +61,11 @@ class MissionsController < ApplicationController
         render json: @missions.uniq, include: [:category,:languages]
       end
 
-    def show
-        @mission = Mission.find(params[:id])
-        render json: @mission
-        
-    end
-
-    def update
-        @mission = Mission.find(params[:id])
-        if @mission.update(post_params2)
-        render json: @mission
-
-        else
-        render json: @mission.errors, statut: :unprocessable_entity
-        end
-    end
 
     def destroy
         @mission = Mission.find(params[:id])
         @mission.destroy
     end
-
-
-
 
     def getmissionbycategory 
         @missions = Mission.where(category_id: params[:category_id])
@@ -98,7 +100,7 @@ class MissionsController < ApplicationController
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:title, :description, :duration, :beginingDate,:client_id,:freelancer_id )
+        params.permit(:title, :description, :duration,:budget, :beginingDate , :category_id , :mission_languages =>[:language_id]  )
     end
 
     def set_post

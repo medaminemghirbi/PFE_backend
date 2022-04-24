@@ -41,9 +41,6 @@ class AdminController < ApplicationController
 # }
 #   end
 
-
-
-
   def getclientmission
     @missions = Mission.where(client_id: params[:client_id])
     render json: @missions , include: [  :category , :mission_languages , :languages ]
@@ -55,7 +52,6 @@ class AdminController < ApplicationController
       mission: @missions
     }
   end
-
 
   def show
     @user = User.find(params[:id])
@@ -140,11 +136,13 @@ class AdminController < ApplicationController
   private
 
   def post_params
-    params.permit(:email  , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar,:github , :facebook,:instagram,:linkedin)
+    params.permit(:email  , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,
+      :description,:avatar,:github , :facebook,:instagram,:linkedin)
   end
 
   def post_paramsFreelancer
-    params.permit(:id ,:earning ,:email , :adresse,:lastname,:firstname,:birthday,:sexe,:phone,:job,:description,:avatar ,:github , :facebook,:instagram,:linkedin)
+    params.permit(:id ,:earning ,:email , :adresse,:lastname,:firstname,:birthday,
+      :sexe,:phone,:job,:description,:avatar ,:github , :facebook,:instagram,:linkedin)
   end
 
   def set_post
