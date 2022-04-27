@@ -36,6 +36,7 @@ class MissionsController < ApplicationController
     end
 
     def update
+        
         @mission = Mission.find(params[:id])
         if @mission.update(post_params2)
         render json: @mission
@@ -61,6 +62,7 @@ class MissionsController < ApplicationController
         
         @missions = MissionLanguage.where(language_id: ids.uniq)
         @missions = @missions.flat_map(&:mission)
+        # @missions=  @mission_languages.flat_map{|ml| ml.mission if ids.uniq.to_s.include?(ml.mission.languages.pluck(:id).to_s) && ml.mission !=nil}
         render json: @missions.uniq, include: [:category,:languages]
       end
 
@@ -78,17 +80,15 @@ class MissionsController < ApplicationController
         render json: @missions , include: [  :category , :mission_languages , :languages]
       end
       def getendedmissionbyclient 
-        ids = []
-        @mission = Mission.where(client_id:  params[:client_id] )
-        @status = Mission.where("completed = ?" , status = true )
-        render json:  @status  , include: [ :freelancer ]   
+        @mission=  Mission.where("completed = ?" , status = true ) .where(client_id:  params[:client_id] )
+        render json:  @mission  , include: [  :client, :freelancer ]  
+ 
     end
 
     def getendedmissionbyfreelancer 
-        ids = []
-        @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
-        @status = Mission.where("completed = ?" , status = true )
-        render json:  @status  , include: [ :freelancer ]   
+        
+      @mission=  Mission.where("completed = ?" , status = true ) .where(freelancer_id:  params[:freelancer_id] )
+        render json:  @mission  , include: [  :client, :freelancer ]   
     end
 
     
@@ -101,7 +101,7 @@ class MissionsController < ApplicationController
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:title, :description, :duration, :beginingDate,:client_id,:freelancer_id )
+        params.permit(:title, :description, :duration,:budget, :beginingDate , :category_id , :mission_languages =>[:language_id]  )
     end
 
     def set_post

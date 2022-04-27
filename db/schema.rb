@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_19_133531) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_27_022303) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -103,6 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_19_133531) do
     t.integer "client_id"
     t.integer "freelancer_id"
     t.integer "requests_count", default: 0
+    t.integer "reviews_count", default: 0
     t.index ["category_id"], name: "index_missions_on_category_id"
     t.index ["client_id"], name: "index_missions_on_client_id"
     t.index ["freelancer_id"], name: "index_missions_on_freelancer_id"
@@ -126,6 +127,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_19_133531) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["mission_id", "user_id"], name: "index_reviews_on_mission_id_and_user_id", unique: true
     t.index ["mission_id"], name: "index_reviews_on_mission_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -148,6 +150,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_19_133531) do
     t.integer "role"
     t.boolean "email_confirmed"
     t.string "confirm_token"
+    t.string "github"
+    t.string "facebook"
+    t.string "instagram"
+    t.string "linkedin"
+    t.integer "reviews_count", default: 0
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

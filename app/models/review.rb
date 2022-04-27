@@ -1,6 +1,6 @@
 class Review < ApplicationRecord
 
-    belongs_to :user
+    belongs_to :user, optional: true, counter_cache: true
     belongs_to :mission 
     
 # has_one :client, class_name: "client", foreign_key: "client_id"

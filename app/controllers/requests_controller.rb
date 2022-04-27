@@ -68,6 +68,7 @@ class RequestsController < ApplicationController
   def getrequestacceptedbyclient
     ids = []
     @mission = Mission.where(client_id:  params[:client_id] )
+    
     @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
 
     render json:  @request     , include: [:mission , :freelancer ]
@@ -75,7 +76,8 @@ end
   def getrequestacceptedbyfreelancer
     ids = []
     @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
-    @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 )
+    
+    @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 ).where(freelancer_id:  params[:freelancer_id] )
 
     render json:  @request   , include: [:mission , :freelancer]   
 end
@@ -114,6 +116,7 @@ end
       @request = Request.find(params[:id])
   end
   def post_params3
-    params.permit(:completed )
+    # lazm tbaath kol shy fl update 
+    params.permit(:completed , :filepath )
 end
 end

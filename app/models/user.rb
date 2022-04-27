@@ -5,10 +5,13 @@ class User < ApplicationRecord
   validates_presence_of :email,  :firstname, :lastname , :role 
   
   validates_uniqueness_of :email
-  has_many :education
+  has_many :education, dependent: :destroy
   enum role: [:freelancer, :client,:admin ]
   has_many :experience, dependent: :destroy
-  has_one_attached :avatar
+  has_one_attached :avatar, dependent: :destroy 
+  validates :reviews_count, :inclusion => { :in => 0..10 }
+  has_many :reviews , dependent: :destroy
+
   #has_one_attached :avatar
 
   def user_image_url
@@ -51,29 +54,18 @@ class User < ApplicationRecord
 
 
 
-
-  def generate_password_token!
-    self.reset_password_token = generate_token
-    self.reset_password_sent_at = Time.now.utc
+  def send_password_reset
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
     save!
-   end
-
-   def password_token_valid?
-    (self.reset_password_sent_at + 4.hours) > Time.now.utc
-   end
-
-   def reset_password!(password)
-    self.reset_password_token = nil
-    self.password = password
-    save!
-   end
-
-
-   private
-
-   def generate_token
-    SecureRandom.hex(10)
-   end
+    UserMailer.forgot_password(self).deliver# This sends an e-mail with a link for the user to reset the password
+  end
+  # This generates a random password reset token for the user
+  def generate_token(column)
+    begin
+      self[column] = SecureRandom.urlsafe_base64
+    end while User.exists?(column => self[column])
+  end
 
 
 

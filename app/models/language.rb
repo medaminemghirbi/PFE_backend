@@ -4,6 +4,6 @@ class Language < ApplicationRecord
 
   Language.has_many :missions , through: :mission_languages
 
-  has_many :freelancers  
+  #has_many :freelancers  
 
 end
