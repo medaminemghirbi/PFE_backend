@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :messages
 
   resources :credit_cards
   resources :sessions, only: [:create]
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
   resources :requests , only: %i[create index show update destroy]
   
   resources :password_resets
+  resources :messages, only: %i[create ]
   root to: 'static#home'
 
 end

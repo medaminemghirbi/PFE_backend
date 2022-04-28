@@ -63,6 +63,7 @@ class AdminController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    
     if @user.update(post_params)
       render json: @user, methods: [:user_image_url] 
 
@@ -72,18 +73,7 @@ class AdminController < ApplicationController
  
   end
 
-  def updateFreelancer
-   
-    @user = User.find(params[:id])
-    
-    if @user.update(post_paramsFreelancer)
-      render json: @user, methods: [:user_image_url] 
 
-    else
-      render json: @user.errors, statut: :unprocessable_entity
-    end
- 
-  end
   def updateclient
     @user = User.find(params[:id])
     if @user.update(post_params)
@@ -135,9 +125,24 @@ end
 
     }
   end
+
+  def updateFreelancer
+   
+    @user = User.find(params[:id])
+    
+    if @user.update(post_paramsFreelancer)
+      
+      render json: @user, methods: [:user_image_url] 
+
+    else
+      render json: @user.errors, statut: :unprocessable_entity
+    end
+ 
+  end
   def updateimagefreelancer
    
     @user = User.find(params[:id])
+    
     if @user.update(paramsimagefreelancer)
       render json: @user, methods: [:user_image_url] 
 

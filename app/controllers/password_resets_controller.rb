@@ -14,7 +14,7 @@ class PasswordResetsController < ApplicationController
   end
   def update
     @user = User.find_by_password_reset_token!(params[:id])
-    byebug
+    
     if @user.update(user_params)
       render json: "password link has been updated"
     else
