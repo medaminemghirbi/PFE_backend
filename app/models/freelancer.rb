@@ -5,6 +5,8 @@ class Freelancer < User
   validates_uniqueness_of :email
 
   has_many :requests , dependent: :destroy
+
+    
   
   #belongs_to :language  
 

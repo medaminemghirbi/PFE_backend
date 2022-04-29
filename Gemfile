@@ -50,3 +50,9 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 end
+gem 'redis', '~> 4.6'
+
+gem 'turbo-rails', '~> 1.0', '>= 1.0.1'
+
+gem 'stimulus-rails', '~> 1.0', '>= 1.0.4'
+

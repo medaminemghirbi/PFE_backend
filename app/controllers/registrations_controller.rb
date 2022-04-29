@@ -35,7 +35,7 @@ class RegistrationsController < ApplicationController
       #flash[:success] = "Please confirm your email address to continue"
       
       session[:user_id] = user.id
-    user = User.last.avatar.attach(io: File.open("#{Rails.root}/app/assets/images/defaut.jpeg"),filename: 'defaut.jpeg', content_type: 'image/jpeg')
+      user = User.last.avatar.attach(io: File.open("#{Rails.root}/app/assets/images/defaut.jpeg"),filename: 'defaut.jpeg', content_type: 'image/jpeg')
 
       render json: {
         status: :created,

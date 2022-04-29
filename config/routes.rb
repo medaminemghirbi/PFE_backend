@@ -1,4 +1,12 @@
 Rails.application.routes.draw do
+
+  
+  root to: 'users#index'
+  resources :messages 
+
+
+  get 'password_resets/new'
+  resources :password_resets
   resources :sessions, only: [:create]
   resources :registrations, only: %i[create confirm_email] do
     member do
@@ -24,6 +32,13 @@ Rails.application.routes.draw do
   patch '/updateimagefreelancer/:id', to: 'admin#updateimagefreelancer'
   patch '/updateadmin/:id', to: 'admin#update'
   
+  
+  patch '/updatelanguage/:id', to: 'admin#updatelanguage'
+  get '/getfreelancerlanguage/:user_id', to: 'admin#getfreelancerlanguage'
+  
+  delete 'destroylanguagefreelancer/:id', to: 'admin#destroylanguagefreelancer'
+  patch '/updatefreelancerlanguages/:id', to: 'admin#updatefreelancerlanguages'
+
   get 'countrequest/:mission_id', to: 'requests#countproposition'
 
   get 'ratingfreelancer/:user_id', to: 'reviews#ratingfreelancer'
@@ -46,9 +61,7 @@ Rails.application.routes.draw do
   get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
   get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
   
-
-
-  get 'getfreelancerbylanguage/:langugage', to: 'experiences#getfreelancerbylanguage'
+  get 'getfreelancerbylanguage/:language_id', to: 'admin#getfreelancerbylanguage'
 
   get 'getuserexperiance/:user_id', to: 'experiences#getuserexperiance'
 
@@ -78,6 +91,6 @@ Rails.application.routes.draw do
 
   resources :requests , only: %i[create index show update destroy]
 
-  root to: 'static#home'
+  #root to: 'static#home'
 
 end

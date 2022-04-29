@@ -13,22 +13,29 @@ class MissionsController < ApplicationController
         
     end
 
-    def create    
+    
+    def create 
+        
         @mission = Mission.new(post_params)
           ids=[]
-        if @mission.save         
+        if @mission.save 
+            
             params[:language_id].split(",").each do |lang_id|
                ids.push(lang_id.to_i) 
                 @missionLanguages =MissionLanguage.create!( language_id: lang_id.to_i ,mission_id: @mission.id)
               end
+
             @missionlanguages = MissionLanguage.where(language_id: ids , mission_id: @mission.id )
+  
             render json:  { 
                 mission: @mission,
                 missionlanguages: @missionlanguages },statut: :created, location: @mission 
+       
         else
             render json: @mission.errors, statut: :unprocessable_entity
         end    
-    end   
+    end  
+    
     def update
         ids=[]
         @mission = Mission.find(params[:id])
@@ -79,14 +86,14 @@ class MissionsController < ApplicationController
 
     def getendedmissionbyclient 
         #ids = []
-        @mission = Mission.where(client_id:  params[:client_id] ).where("completed = ?" , status = true )
+        @mission = Mission.where("completed = ?" , status = true ).where(client_id:  params[:client_id] )
        # @status = Mission.where("completed = ?" , status = true )
         render json:  @mission  , include: [ :freelancer , :client ]   
     end
 
     def getendedmissionbyfreelancer 
        # ids = []
-        @mission = Mission.where(freelancer_id:  params[:freelancer_id] ).where("completed = ?" , status = true )
+        @mission = Mission.where("completed = ?" , status = true ).where(freelancer_id:  params[:freelancer_id] )
         #@status = Mission.where("completed = ?" , status = true )
         render json:  @mission  , include: [ :freelancer , :client ]   
     end

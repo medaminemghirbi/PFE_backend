@@ -43,13 +43,8 @@ class ExperiencesController < ApplicationController
         render json: @experiences ,  include: :user
     end
 
-    def getfreelancerbylanguage
-        @freelancers = Experience.where(langugage: params[:langugage])
-        render json: @freelancers , include: [  :user]  
-    end
 
     private
-
 
     def post_params
         params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id , :langugage, :languagerating)

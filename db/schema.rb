@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_28_225106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,8 +72,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
     t.index ["user_id"], name: "index_experiences_on_user_id"
   end
 
+  create_table "freelancer_languages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "language_id", null: false
+    t.integer "languagerate", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["language_id"], name: "index_freelancer_languages_on_language_id"
+    t.index ["user_id"], name: "index_freelancer_languages_on_user_id"
+  end
+
   create_table "languages", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "receiver_id"
+    t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -127,6 +145,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["mission_id", "user_id"], name: "index_reviews_on_mission_id_and_user_id", unique: true
     t.index ["mission_id"], name: "index_reviews_on_mission_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
@@ -139,7 +158,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
     t.date "birthday"
     t.string "password_digest"
     t.string "sexe"
-    t.float "rating"
     t.integer "phone"
     t.string "job"
     t.string "description"
@@ -154,10 +172,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_24_015351) do
     t.string "instagram"
     t.string "linkedin"
     t.integer "reviews_count", default: 0
+    t.string "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "freelancer_languages", "languages"
+  add_foreign_key "freelancer_languages", "users"
   add_foreign_key "mission_languages", "languages"
   add_foreign_key "mission_languages", "missions"
   add_foreign_key "missions", "categories"
