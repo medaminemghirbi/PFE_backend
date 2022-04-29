@@ -25,7 +25,7 @@ class AdminController < ApplicationController
 
   def getfreelancerdata
     @freelancer = Freelancer.where(id: params[:id])
-    render json: @freelancer , methods: [:user_image_url]
+    render json: @freelancer , methods: [:user_image_url] 
   end
   
   def getfreelancersbyrating   
@@ -81,6 +81,7 @@ class AdminController < ApplicationController
     end
  
   end
+
   def updatelanguage
     @user = User.find(params[:id])
         if @user.update(post_paramslanguage)  
@@ -100,7 +101,6 @@ class AdminController < ApplicationController
        @languagesfreelancer , include: [ :language , :user]
   end
 
-
   def updatefreelancerlanguages
     @freelancerLanguages  = FreelancerLanguage.find(params[:id])
     if @freelancerLanguages.update(post_paramsFreelancerLangueage)
@@ -112,25 +112,17 @@ class AdminController < ApplicationController
  
   end
     def getfreelancerbylanguage
-    ids = []
-        params[:language_id].split(',').each do |lang_id|
-          ids.push(lang_id.to_i)
-        end
-        
-        @freelancer_languagess = FreelancerLanguage.where(language_id: ids.uniq)
-        
-        @freelancers =  @freelancer_languagess.flat_map{|ml| ml.user }
-        
-        render json: @freelancers.uniq , include: [ :languages ]  , methods: [:user_image_url] 
-      end
-  def getfreelancerbylanguage2
-    
-    @languagess = FreelancerLanguage.where(language_id: params[:language_id])
-    #@freelancer = User.where( id: @languagess.user_id)
-    render json: @languagess 
-
-  end
-
+      ids = []
+          params[:language_id].split(',').each do |lang_id|
+            ids.push(lang_id.to_i)
+          end
+          
+          @freelancer_languagess = FreelancerLanguage.where(language_id: ids.uniq)
+          
+          @freelancers =  @freelancer_languagess.flat_map{|ml| ml.user }
+          
+          render json: @freelancers.uniq , include: [ :languages ]  , methods: [:user_image_url] 
+    end
 
   def destroylanguagefreelancer
     @languagesfreelancer = FreelancerLanguage.find(params[:id])

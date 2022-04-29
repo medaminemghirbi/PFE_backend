@@ -47,12 +47,12 @@ class ExperiencesController < ApplicationController
     private
 
     def post_params
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id , :langugage, :languagerating)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id )
     end
 
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id , :langugage, :languagerating)
+        params.permit(:dateDebut , :dateFin ,:jobType , :description , :entreprise ,:user_id )
     end
 
     def set_post
