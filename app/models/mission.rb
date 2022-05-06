@@ -18,5 +18,7 @@ class Mission < ApplicationRecord
 
     has_many :reviews , dependent: :destroy
     validates :reviews_count, :inclusion => { :in => 0..10 }
+    
+    has_many :favoris , dependent: :destroy
 
 end

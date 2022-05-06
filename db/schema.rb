@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_035731) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_06_015033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -68,6 +68,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_035731) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.index ["user_id"], name: "index_experiences_on_user_id"
+  end
+
+  create_table "favoris", force: :cascade do |t|
+    t.bigint "mission_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mission_id", "user_id"], name: "index_favoris_on_mission_id_and_user_id", unique: true
+    t.index ["mission_id"], name: "index_favoris_on_mission_id"
+    t.index ["user_id"], name: "index_favoris_on_user_id"
   end
 
   create_table "freelancer_languages", force: :cascade do |t|
@@ -175,6 +185,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_035731) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "favoris", "missions"
+  add_foreign_key "favoris", "users"
   add_foreign_key "freelancer_languages", "languages"
   add_foreign_key "freelancer_languages", "users"
   add_foreign_key "mission_languages", "languages"

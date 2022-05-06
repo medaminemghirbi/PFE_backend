@@ -91,6 +91,9 @@ Rails.application.routes.draw do
 
   resources :requests , only: %i[create index show update destroy]
 
+  resources :favoris , only: %i[ create index destroy ]
+  get 'favoris/:user_id', to: 'favoris#show'
+
   #root to: 'static#home'
 
 end

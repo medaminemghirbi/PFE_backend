@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
     include CurrentUserConcern
+    
     def index
         @reviews = Review.all
         render json: @reviews ,  include: [:mission , :user ]
@@ -55,7 +56,7 @@ class ReviewsController < ApplicationController
     end
     def post_params2
         # lazm tbaath kol shy fl update 
-        params.permit(:commentClient , :commentFreelancer , :mission_id , :user_id)
+        params.permit( :mission_id , :user_id)
     end
 
     def set_post

@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy 
   validates :reviews_count, :inclusion => { :in => 0..10 }
   has_many :reviews , dependent: :destroy
+  has_many :favoris , dependent: :destroy
 
   has_one_attached :avatar , dependent: :destroy 
 

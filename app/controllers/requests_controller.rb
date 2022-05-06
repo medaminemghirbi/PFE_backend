@@ -37,7 +37,7 @@ class RequestsController < ApplicationController
         
         @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 ).where(freelancer_id:  params[:freelancer_id] )
 
-        render json:  @request   , include: [:mission , :freelancer]   
+        render json:  @request   , include: [:mission , :freelancer ]   
     end
 
 ###################################################################################################
