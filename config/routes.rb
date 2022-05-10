@@ -13,16 +13,16 @@ Rails.application.routes.draw do
   get :freelancers, to: 'admin#getallfreelancers'
   get 'client/:client_id', to: 'admin#getclientmission'
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
-  get 'freelancerdata/:id', to: 'admin#getfreelancerdata' 
+  get 'freelancerdata/:id', to: 'admin#getfreelancerdata'
   patch 'updatecompleted/:id', to: 'requests#updatecompleted'
   delete 'deleteclient/:client_id', to: 'admin#destroyclient'
-  get 'missiondata/:id', to: 'admin#getmissiondata' 
+  get 'missiondata/:id', to: 'admin#getmissiondata'
   get :countall, to: 'admin#countall'
   patch '/upadateFreelancer/:id', to: 'admin#updateFreelancer'
   patch '/updateclient/:id', to: 'admin#updateclient'
   patch '/updateimagefreelancer/:id', to: 'admin#updateimagefreelancer'
-  patch '/updateadmin/:id', to: 'admin#update' 
-  get 'clientdata/:id', to: 'admin#getclientdata' 
+  patch '/updateadmin/:id', to: 'admin#update'
+  get 'clientdata/:id', to: 'admin#getclientdata'
   get 'getmissionbylanguage/:language_id', to: 'missions#getmissionbylanguage'
   get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
   get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
@@ -41,26 +41,37 @@ Rails.application.routes.draw do
   get 'getrequestacceptedbyfreelancer/:freelancer_id', to: 'requests#getrequestacceptedbyfreelancer'
   get 'ratingfreelancer/:user_id', to: 'reviews#ratingfreelancer'
   get 'ratingclient/:user_id', to: 'reviews#ratingclient'
+
+  get 'getfreelancerbylanguage/:language_id', to: 'admin#getfreelancerbylanguage'
+  patch '/updatelanguage/:id', to: 'admin#updatelanguage'
+  get '/getfreelancerlanguage/:user_id', to: 'admin#getfreelancerlanguage'
+  delete 'destroylanguagefreelancer/:id', to: 'admin#destroylanguagefreelancer'
+  patch '/updatefreelancerlanguages/:id', to: 'admin#updatefreelancerlanguages'
+
+  get 'getallpayements', to: 'orders#index'
+  post :create_order, to: 'orders#create_order'
+  post :capture_order, to: 'orders#capture_order'
+
+  
   resources :admin, only: %i[show create index update destroy]
 
   resources :missions, only: %i[create index show update destroy]
 
   resources :categories, only: %i[create index show update destroy]
 
-
-
   resources :reviews, only: %i[create index show update destroy]
 
   resources :educations, only: %i[create index show update destroy]
 
   resources :experiences, only: %i[create index show update destroy]
-  
+
   resources :languages, only: %i[create index show update destroy]
 
-  resources :requests , only: %i[create index show update destroy]
-  
-  resources :password_resets
-  resources :messages, only: %i[create ]
-  root to: 'static#home'
+  resources :requests, only: %i[create index show update destroy]
 
+  resources :password_resets
+  resources :messages, only: %i[create]
+  resources :favoris , only: %i[ create index destroy ]
+  get 'favoris/:user_id', to: 'favoris#show'
+  root to: 'static#home'
 end

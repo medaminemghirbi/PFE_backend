@@ -3,7 +3,8 @@ class User < ApplicationRecord
   before_create :confirmation_token
   has_secure_password
   validates_presence_of :email,  :firstname, :lastname , :role 
-  
+  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+
   validates_uniqueness_of :email
   has_many :education, dependent: :destroy
   enum role: [:freelancer, :client,:admin ]
@@ -11,13 +12,13 @@ class User < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy 
   validates :reviews_count, :inclusion => { :in => 0..10 }
   has_many :reviews , dependent: :destroy
-
+  has_many :freelancer_languages , dependent: :destroy
 
   has_many :messagee, foreign_key: :receiver_id, class_name: 'Message'  
   has_many :senders, through: :messagee
   has_many :messaged, foreign_key: :sender_id, class_name: 'Message'
   has_many :receivers, through: :messaged
-
+  has_many :favoris , dependent: :destroy
   #has_one_attached :avatar
 
   def user_image_url
