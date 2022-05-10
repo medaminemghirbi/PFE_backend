@@ -1,6 +1,14 @@
 class Mission < ApplicationRecord
     
-    validates_presence_of :title , :description , :duration , :beginingDate 
+    validates_presence_of :title , :description , :duration  
+   # validates :beginingDate, date: true
+    validate :beginingDate_after_current_date?
+
+    def beginingDate_after_current_date?
+      if beginingDate < Date.today
+        errors.add :beginingDate, "must be after current date"
+      end
+    end
 
     belongs_to :client , class_name: "Client" , foreign_key: "client_id" 
     belongs_to :freelancer , class_name: "Freelancer" , foreign_key: "freelancer_id" ,optional: true

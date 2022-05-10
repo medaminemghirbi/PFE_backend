@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  #validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create } 
+
   has_many :messagee, foreign_key: :receiver_id, class_name: 'Message'  
   has_many :senders, through: :messagee
   has_many :messaged, foreign_key: :sender_id, class_name: 'Message'

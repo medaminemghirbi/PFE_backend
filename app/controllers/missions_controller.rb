@@ -1,6 +1,5 @@
 class MissionsController < ApplicationController
     include CurrentUserConcern
-   
 
     def index
         @missions = Mission.all

@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   
   root to: 'users#index'
+
+  get 'countAllHome' , to: 'admin#countAllHome'
+
   resources :messages 
 
 
