@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   get 'getrequestacceptedbyfreelancer/:freelancer_id', to: 'requests#getrequestacceptedbyfreelancer'
   get 'ratingfreelancer/:user_id', to: 'reviews#ratingfreelancer'
   get 'ratingclient/:user_id', to: 'reviews#ratingclient'
+  get 'countAllHome' , to: 'admin#countAllHome'
 
   get 'getfreelancerbylanguage/:language_id', to: 'admin#getfreelancerbylanguage'
   patch '/updatelanguage/:id', to: 'admin#updatelanguage'
