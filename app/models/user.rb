@@ -13,6 +13,7 @@ class User < ApplicationRecord
   validates :reviews_count, :inclusion => { :in => 0..10 }
   has_many :reviews , dependent: :destroy
   has_many :freelancer_languages , dependent: :destroy
+  has_and_belongs_to_many :conversations, dependent: :destroy
 
 
   has_many :favoris , dependent: :destroy

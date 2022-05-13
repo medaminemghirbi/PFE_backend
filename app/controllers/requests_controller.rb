@@ -22,6 +22,13 @@ class RequestsController < ApplicationController
       }   , include: [:mission, :freelancer   ]
       
   end
+  def getmissionbyrequestclient
+    
+    @mission= Mission.joins(:requests).joins(:freelancer).where(client_id:  params[:client_id] )
+    render json: {
+        mission: @mission 
+    }   , include: [:requests,:freelancer]   
+end
 ######################################################################################################
 
   def create       

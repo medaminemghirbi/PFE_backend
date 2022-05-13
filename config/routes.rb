@@ -32,6 +32,9 @@ Rails.application.routes.draw do
   get 'getusereducation/:user_id', to: 'educations#getusereducation'
   get 'getrequestbyfreelancer/:freelancer_id', to: 'requests#getrequestbyfreelancer'
   get 'getrequestbyclient/:client_id', to: 'requests#getrequestbyclient'
+  get 'getmissionbyrequestclient/:client_id', to: 'requests#getmissionbyrequestclient'
+
+
   get 'getmissionbyfreelancer/:freelancer_id', to: 'admin#getmissionbyfreelancer'
   get 'activemission/:client_id', to: 'missions#getclientactivemission'
   get 'getendedmissionbyclient/:client_id', to: 'missions#getendedmissionbyclient'
