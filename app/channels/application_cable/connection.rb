@@ -6,6 +6,13 @@ module ApplicationCable
       self.current_user = find_verified_user
     end
 
+
+    def disconnect
+      ActionCable.server.broadcast(
+        "notification_channel",
+        type: 'alert', data: "#{current_user} disconnected"
+      )
+    end
     private
       def find_verified_user
         # or however you want to verify the user on your system

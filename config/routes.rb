@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'payement/new'
+  get 'payement/create'
   resources :messages
 
   resources :credit_cards
@@ -72,7 +74,7 @@ Rails.application.routes.draw do
   resources :languages, only: %i[create index show update destroy]
 
   resources :requests, only: %i[create index show update destroy]
-
+  resources :charges, only: %i[create]
   resources :password_resets
   resources :messages, only: %i[create]
   resources :favoris , only: %i[ create index destroy ]
