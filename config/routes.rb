@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   resources :charges, only: %i[create]
   resources :password_resets
   resources :messages, only: %i[create]
+  mount ActionCable.server => '/cable'
   resources :favoris , only: %i[ create index destroy ]
   get 'favoris/:user_id', to: 'favoris#show'
   root to: 'static#home'
