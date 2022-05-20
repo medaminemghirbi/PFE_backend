@@ -9,12 +9,12 @@ class MessageController < ApplicationController
     end    
   end   
   def getmessagebysender
-    @message = Message.where(sender_id:  params[:sender_id] )
+    @message = Message.where(sender_id:  params[:sender_id],receiver_id: params[:receiver_id] ).order('created_at ASC')
     render json: @message  
   end
   def getmessagebyreceiver
     
-    @message = Message.where(receiver_id:  params[:receiver_id] )
+     @message = Message.where(receiver_id:  params[:receiver_id] ,sender_id:  params[:sender_id]).order('created_at ASC')
     render json: @message  
   end
     def post_params

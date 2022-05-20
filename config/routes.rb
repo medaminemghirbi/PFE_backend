@@ -56,8 +56,8 @@ Rails.application.routes.draw do
 
   get 'getallpayements', to: 'orders#index'
   post 'message', to: 'message#sendmessage'
-  get 'getmessagebysender/:sender_id', to: 'message#getmessagebysender'
-  get 'getmessagebyreceiver/:receiver_id', to: 'message#getmessagebyreceiver'
+  get 'getmessagebysender/:sender_id/:receiver_id', to: 'message#getmessagebysender'
+  get 'getmessagebyreceiver/:receiver_id/:sender_id', to: 'message#getmessagebyreceiver'
 
   
   resources :admin, only: %i[show create index update destroy]
