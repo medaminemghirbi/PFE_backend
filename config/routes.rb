@@ -55,8 +55,9 @@ Rails.application.routes.draw do
   patch '/updatefreelancerlanguages/:id', to: 'admin#updatefreelancerlanguages'
 
   get 'getallpayements', to: 'orders#index'
-  post :create_order, to: 'orders#create_order'
-  post :capture_order, to: 'orders#capture_order'
+  post 'message', to: 'message#sendmessage'
+  get 'getmessagebysender/:sender_id', to: 'message#getmessagebysender'
+  get 'getmessagebyreceiver/:receiver_id', to: 'message#getmessagebyreceiver'
 
   
   resources :admin, only: %i[show create index update destroy]

@@ -82,10 +82,11 @@ end
 end
   def getrequestacceptedbyfreelancer
     ids = []
+    
     @mission = Mission.where(freelancer_id:  params[:freelancer_id] )
     
     @request = Request.where(mission_id: @mission.ids  ).where("status = ?" , status = 1 ).where(freelancer_id:  params[:freelancer_id] )
-
+    @rr = User.where(mission_id: @mission.ids  )
     render json:  @request   , include: [:mission , :freelancer]   
 end
 
