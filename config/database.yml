@@ -3,22 +3,22 @@ common: &common
  host:    localhost
  encoding: unicode
  pool: 5
- username: oumaima # OR your username
- password: 123456
+ username: postgres # OR your username
+ password: postgres
  schema_search_path: "public,hstore,uuid"
 development:
  <<: *common
- database: API # OR your database name
+ database: freelancy # OR your database name
 dev_it:
  <<: *common
- database: API # OR your database name
+ database: freelancy # OR your database name
 staging:
  <<: *common
- database: API # OR your database name
+ database: freelancy # OR your database name
 production:
  <<: *common
- database: API # OR your database name
+ database: freelancy # OR your database name
 test:
  <<: *common
- database: API # OR your database name
+ database: freelancy # OR your database name
  min_messages: WARNING

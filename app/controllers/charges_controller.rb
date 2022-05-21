@@ -2,7 +2,7 @@ require 'stripe'
 class ChargesController < ApplicationController
   # include CurrentUserConcern
   def create
-    Stripe.api_key = 'sk_test_51KsTRVAP0C7RxDT0mJJpEc8eA4yeTSgjgG4hKAsWNmXPtktzutArQTg6p5EUrC1saJ6RBawnkunRj7zYA3NbxgB600szFxwwdw'
+    Stripe.api_key = 'sk_test_51L00opGaJ06Z6ByyZkx90mQaKVl2bHdg83poXzJreYDwrV5xXypk9xgCHFPLrsg4IcpAzHrhpM5owg2kWPsqNx4600aP17X6Aa'
 
     begin
       customer = Stripe::Customer.create({  

@@ -1,23 +1,28 @@
 class User < ApplicationRecord
   include Rails.application.routes.url_helpers
+
   before_create :confirmation_token
   has_secure_password
   validates_presence_of :email, :firstname, :lastname, :role
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-
   validates_uniqueness_of :email
-  has_many :education, dependent: :destroy
-  enum role: %i[freelancer client admin]
-  has_many :experience, dependent: :destroy
-  has_one_attached :avatar, dependent: :destroy
   validates :reviews_count, inclusion: { in: 0..10 }
+
+  enum role: %i[freelancer client admin]
+
+  has_many :education, dependent: :destroy
+
+  has_many :experience, dependent: :destroy
+
   has_many :reviews, dependent: :destroy
+
   has_many :freelancer_languages, dependent: :destroy
+
   has_and_belongs_to_many :conversations, dependent: :destroy
 
   has_many :favoris, dependent: :destroy
-  # has_one_attached :avatar
 
+  has_one_attached :avatar, dependent: :destroy
   def user_image_url
     # Get the URL of the associated image
     avatar.attached? ? url_for(avatar) : nil
@@ -51,4 +56,5 @@ class User < ApplicationRecord
       self[column] = SecureRandom.urlsafe_base64
     end while User.exists?(column => self[column])
   end
+
 end

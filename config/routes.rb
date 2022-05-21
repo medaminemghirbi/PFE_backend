@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
-  get 'payement/new'
-  get 'payement/create'
-  resources :messages
 
-  resources :credit_cards
   resources :sessions, only: [:create]
   resources :registrations, only: %i[create confirm_email] do
     member do
@@ -12,6 +8,7 @@ Rails.application.routes.draw do
   end
   delete :logout, to: 'sessions#logout'
   get :logged_in, to: 'admin#logged_in'
+
   get :freelancers, to: 'admin#getallfreelancers'
   get 'client/:client_id', to: 'admin#getclientmission'
   get 'freelancer/:freelancer_id', to: 'admin#getfreelancermission'
@@ -53,11 +50,6 @@ Rails.application.routes.draw do
   get '/getfreelancerlanguage/:user_id', to: 'admin#getfreelancerlanguage'
   delete 'destroylanguagefreelancer/:id', to: 'admin#destroylanguagefreelancer'
   patch '/updatefreelancerlanguages/:id', to: 'admin#updatefreelancerlanguages'
-
-  get 'getallpayements', to: 'orders#index'
-  post :create_order, to: 'orders#create_order'
-  post :capture_order, to: 'orders#capture_order'
-
   
   resources :admin, only: %i[show create index update destroy]
 
@@ -74,11 +66,30 @@ Rails.application.routes.draw do
   resources :languages, only: %i[create index show update destroy]
 
   resources :requests, only: %i[create index show update destroy]
+
+  resources :messages
+
   resources :charges, only: %i[create]
+
+  #get 'getallpayements', to: 'orders#index'
+  #post :create_order, to: 'orders#create_order'
+  #post :capture_order, to: 'orders#capture_order'
+  #get 'payement/new'
+  #get 'payement/create'
+  #resources :credit_cards
+
   resources :password_resets
+
   resources :messages, only: %i[create]
+  post 'message', to: 'message#sendmessage'
+  get 'getmessagebysender/:sender_id/:receiver_id', to: 'message#getmessagebysender'
+  get 'getmessagebyreceiver/:receiver_id/:sender_id', to: 'message#getmessagebyreceiver'
+
   mount ActionCable.server => '/cable'
+
   resources :favoris , only: %i[ create index destroy ]
   get 'favoris/:user_id', to: 'favoris#show'
+
   root to: 'static#home'
+
 end
