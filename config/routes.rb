@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   get :countall, to: 'admin#countall'
   patch '/upadateFreelancer/:id', to: 'admin#updateFreelancer'
   patch '/updateclient/:id', to: 'admin#updateclient'
+
   patch '/updateimagefreelancer/:id', to: 'admin#updateimagefreelancer'
+  
   patch '/updateadmin/:id', to: 'admin#update'
   get 'clientdata/:id', to: 'admin#getclientdata'
   get 'getmissionbylanguage/:language_id', to: 'missions#getmissionbylanguage'
