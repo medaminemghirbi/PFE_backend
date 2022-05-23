@@ -211,12 +211,12 @@ class AdminController < ApplicationController
   end
   def post_params
     params.permit(:email, :password, :adresse, :lastname, :firstname, :birthday, :sexe, :phone, :job, :description, :avatar,
-                  :github, :facebook, :instagram, :linkedin)
+                  :github, :facebook, :instagram, :linkedin )
   end
 
   def post_paramsFreelancer
     params.permit(:id, :earning, :email, :password, :adresse, :lastname, :firstname, :birthday, :sexe, :phone, :job,
-                  :description, :avatar, :github, :facebook, :instagram, :linkedin)
+                  :description, :avatar, :github, :facebook, :instagram, :linkedin , :RIB)
   end
 
   def set_post
