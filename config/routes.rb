@@ -25,7 +25,11 @@ Rails.application.routes.draw do
   patch '/updateadmin/:id', to: 'admin#update'
   get 'clientdata/:id', to: 'admin#getclientdata'
   get 'getmissionbylanguage/:language_id', to: 'missions#getmissionbylanguage'
-  get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory'
+
+  get 'getmissionbycategory/:category_id', to: 'missions#getmissionbycategory' 
+
+  get 'getcategorymission/:id', to: 'missions#getcategorymission' 
+
   get 'getmissionbybudget/:budget', to: 'missions#getmissionbybudget'
   get 'getuserexperiance/:user_id', to: 'experiences#getuserexperiance'
 

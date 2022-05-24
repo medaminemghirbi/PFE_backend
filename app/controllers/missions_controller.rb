@@ -71,6 +71,16 @@ class MissionsController < ApplicationController
         render json: @missions , include: [  :category , :mission_languages , :languages , :client]
     end
 
+################################################## home category filter ##########################################
+    def getcategorymission 
+        @category = Category.where(id: params[:id])
+        @missions = Mission.where(category_id: @category.ids)
+        
+        render json: 
+            @missions  , include: [  :category , :mission_languages , :languages ]
+        #, include: [  :category , :mission_languages , :languages ]
+    end
+
     def getmissionbybudget     
         @missions = Mission.where("budget <= ?" ,  params[:budget]).order('budget DESC')  
         render json: @missions , include: [  :category , :mission_languages , :languages , :client]

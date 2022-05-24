@@ -54,7 +54,7 @@ end
       @request = Request.find(params[:id])
 
       
-      if @request.update(post_params2)   &&post_params2[:status] =="accepted"
+      if ( @request.update(post_params2)   && post_params2[:status] =="accepted" )
           @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).update(freelancer_id: @request.freelancer_id)
 
           render json: 
