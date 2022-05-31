@@ -1,7 +1,12 @@
 class MissionsController < ApplicationController
     include CurrentUserConcern
    
-
+   
+    def homemissions
+    
+        @mission= Mission.where("freelancer_id IS NULL")
+        render json: @mission  ,include:[  :requests ,:category , :mission_languages , :languages , :client  ]
+    end
     def index
         @missions = Mission.all
         render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
@@ -27,7 +32,7 @@ class MissionsController < ApplicationController
         else
             render json: @mission.errors, statut: :unprocessable_entity
         end    
-    end   
+    end 
 
     def show
         @mission = Mission.find(params[:id])
@@ -80,9 +85,11 @@ class MissionsController < ApplicationController
         render json: @missions , include: [  :category , :mission_languages , :languages]
       end
       def getendedmissionbyclient 
-        @mission=  Mission.where("completed = ?" , status = true ) .where(client_id:  params[:client_id] )
-        render json:  @mission  , include: [  :client, :freelancer ]  
- 
+        #ids = []
+        @mission = Mission.where("completed = ?" , status = true ).where(client_id:  params[:client_id] )
+       # @status = Mission.where("completed = ?" , status = true )
+        render json:  @mission  , include: [ :freelancer , :client ]   
+        
     end
 
     def getendedmissionbyfreelancer 

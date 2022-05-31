@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'payement/new'
 
+  get 'countAllHome' , to: 'admin#countAllHome'
+  
   get 'payement/create'
 
   resources :messages
@@ -100,6 +102,9 @@ Rails.application.routes.draw do
   get 'getmessagebysender/:sender_id/:receiver_id', to: 'message#getmessagebysender'
 
   get 'getmessagebyreceiver/:receiver_id/:sender_id', to: 'message#getmessagebyreceiver'
+
+
+  get :homemissions, to: 'missions#homemissions'
 
   resources :admin, only: %i[show create index update destroy]
 
