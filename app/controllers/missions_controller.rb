@@ -1,10 +1,15 @@
 class MissionsController < ApplicationController
     include CurrentUserConcern
    
-
+    def homemissions
+    
+        @mission= Mission.where("freelancer_id IS NULL")
+        render json: @mission  ,include:[  :requests ,:category , :mission_languages , :languages , :client  ]
+    end
+    
     def index
-        @missions = Mission.all
-        render json: @missions  , include: [  :category , :mission_languages , :languages , :client  ]
+        @missions = Mission.all.order('created_at DESC') 
+        render json: @missions  , include: [  :category , :mission_languages , :languages , :client , :freelancer ]
     end
 
     def create 
@@ -36,7 +41,6 @@ class MissionsController < ApplicationController
     end
 
     def update
-        
         @mission = Mission.find(params[:id])
         if @mission.update(post_params2)
         render json: @mission
@@ -48,10 +52,14 @@ class MissionsController < ApplicationController
 
     def destroy
         @mission = Mission.find(params[:id])
-        @mission.destroy
-    end
-    #les filtres des pages home
-
+        if(@mission.freelancer_id.nil?  )
+        
+              @mission.destroy
+              render json: {status: 200}
+        else 
+            render json: {status: 401}
+        end 
+        end
     
     def getmissionbylanguage
     
@@ -90,14 +98,14 @@ class MissionsController < ApplicationController
         render json: @missions , include: [  :category , :mission_languages , :languages]
       end
       def getendedmissionbyclient 
-        @mission=  Mission.where("completed = ?" , status = true ) .where(client_id:  params[:client_id] )
+        @mission=  Mission.where("completed = ?" , status = true ).where(client_id:  params[:client_id] )
         render json:  @mission  , include: [  :client, :freelancer ]  
  
     end
 
     def getendedmissionbyfreelancer 
         
-      @mission=  Mission.where("completed = ?" , status = true ) .where(freelancer_id:  params[:freelancer_id] )
+      @mission=  Mission.where("completed = ?" , status = true ).where(freelancer_id:  params[:freelancer_id] )
         render json:  @mission  , include: [  :client, :freelancer ]   
     end
 

@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  
+  get 'countAllFreelancer/:user_id', to: 'admin#countAllFreelancer'
+  
+  get 'countAllClient/:client_id', to: 'admin#countAllClient'
+
   resources :sessions, only: [:create]
   resources :registrations, only: %i[create confirm_email] do
     member do
@@ -8,6 +13,8 @@ Rails.application.routes.draw do
   end
   delete :logout, to: 'sessions#logout'
   get :logged_in, to: 'admin#logged_in'
+  
+  get :homemissions, to: 'missions#homemissions'
 
   get :freelancers, to: 'admin#getallfreelancers'
   get 'client/:client_id', to: 'admin#getclientmission'

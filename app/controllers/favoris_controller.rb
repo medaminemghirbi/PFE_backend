@@ -28,7 +28,6 @@ class FavorisController < ApplicationController
 
   private
 
-
   def post_params
       params.permit(:mission_id , :user_id)
   end

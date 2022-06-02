@@ -11,6 +11,50 @@ class AdminController < ApplicationController
     
   end
   
+  def countAllFreelancer  
+
+    @education = Education.where(user_id: params[:user_id]).count
+    @experience = Experience.where(user_id: params[:user_id]).count
+    @language = FreelancerLanguage.where(user_id: params[:user_id]).count
+    @activemissions = Mission.where(freelancer_id: params[:user_id]).count
+    @endedmissions = Mission.where(freelancer_id: params[:user_id]).where("completed = ?" , status = true ).count
+    @requests = Request.where(freelancer_id: params[:user_id]).where("status = ?" , status = 1 ).count
+
+    render json: {
+      data: 
+      [
+        education: @education  ,
+      experience: @experience ,
+      language: @language , 
+      activemissions: @activemissions ,
+      endedmissions: @endedmissions ,
+      requests: @requests 
+    ]
+
+    }
+  end
+
+  def countAllClient 
+    @allmissions = Mission.where(client_id: params[:client_id]).count
+     @notactivemissions = Mission.where(client_id: params[:client_id]).where("freelancer_id IS NULL").count
+     @activemissions = Mission.where(client_id: params[:client_id]).where("completed = ?" , status = false ).where("freelancer_id IS NOT NULL").count
+     @endedmissions = Mission.where(client_id: params[:client_id]).where("completed = ?" , status = true ).count
+ 
+    # @requests = Request.where(freelancer_id: params[:user_id]).where("status = ?" , status = 1 ).count
+ 
+     render json: {
+      data: 
+      [
+      allmissions:  @allmissions ,
+      notactivemissions: @notactivemissions ,
+       activemissions: @activemissions ,
+       endedmissions: @endedmissions ,
+       # requests: @requests ,
+      ]
+     }
+    
+  end
+
   def index
     # if @current_user.role == "admin"
     @users = User.all.select { |m| m.role == 'freelancer' || m.role == 'client' }
@@ -22,7 +66,7 @@ class AdminController < ApplicationController
   end
 
   def getallfreelancers
-    @users = User.all.select { |m| m.role == 'freelancer' }
+    @users = User.all.order('earning DESC').select { |m| m.role == 'freelancer' }
     render json: @users, methods: [:user_image_url]
   end
 
@@ -108,7 +152,7 @@ class AdminController < ApplicationController
 
   def getmissiondata
     @mission = Mission.where(id: params[:id])
-    render json: @mission, include: %i[category client mission_languages languages]
+    render json: @mission, include: %i[category client mission_languages languages freelancer]
   end
 
   def countall
