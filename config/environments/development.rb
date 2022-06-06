@@ -7,10 +7,23 @@ Rails.application.configure do
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
-
+  config.action_cable.url = "ws://localhost:8080/cable"
   # Do not eager load code on boot.
   config.eager_load = false
+
+  config.action_mailer.delivery_method = :smtp
+  host = 'localhost:3000' #replace with your own url
   Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+  config.action_mailer.default_url_options = { host: host }
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => "riden5211@gmail.com",
+    :password             => "xciuosghtpkkvosi",
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
 
   # Show full error reports.
   config.consider_all_requests_local = true

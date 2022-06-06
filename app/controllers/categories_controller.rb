@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
   # //////////////////////////////////  categories
 
   def index
-    render json: Category.all, methods: [:image_url]  #Change here
+    render json: Category.all.order(id: :ASC), methods: [:image_url]  #Change here
   end
 
   def create
