@@ -1,14 +1,56 @@
 class AdminController < ApplicationController
   include CurrentUserConcern
-  def countAllHome  
-    @freelancer = Freelancer.all.select { |m| m.role == "freelancer" }.count
-    @client = Client.all.select { |m| m.role == "client" }.count
-    @mission = Mission.all.count 
+  def countAllHome
+    @freelancer = Freelancer.all.select { |m| m.role == 'freelancer' }.count
+    @client = Client.all.select { |m| m.role == 'client' }.count
+    @mission = Mission.all.count
     render json: {
-      data:[ @freelancer,@client,@mission ]
+      data: [@freelancer, @client, @mission]
     }
-    
   end
+
+  def countAllFreelancer
+    @education = Education.where(user_id: params[:user_id]).count
+    @experience = Experience.where(user_id: params[:user_id]).count
+    @language = FreelancerLanguage.where(user_id: params[:user_id]).count
+    @activemissions = Mission.where(freelancer_id: params[:user_id]).where('completed = ?', status = false).count
+    @endedmissions = Mission.where(freelancer_id: params[:user_id]).where('completed = ?', status = true).count
+    @requests = Request.where(freelancer_id: params[:user_id]).count
+    @favoris = Favori.where(user_id: params[:user_id]).count
+
+    render json: {
+
+      education: @education,
+      experience: @experience,
+      language: @language,
+      activemissions: @activemissions,
+      endedmissions: @endedmissions,
+      requests: @requests,
+      favoris: @favoris
+
+    }
+  end
+
+  def countAllClient
+    @allmissions = Mission.where(client_id: params[:client_id]).count
+    @notactivemissions = Mission.where(client_id: params[:client_id]).where('freelancer_id IS NULL').count
+    @activemissions = Mission.where(client_id: params[:client_id]).where('completed = ?',
+                                                                         status = false).where('freelancer_id IS NOT NULL').count
+    @endedmissions = Mission.where(client_id: params[:client_id]).where('completed = ?', status = true).count
+
+    # @requests = Request.where(freelancer_id: params[:user_id]).where("status = ?" , status = 1 ).count
+
+    render json: {
+
+      allmissions: @allmissions,
+      notactivemissions: @notactivemissions,
+      activemissions: @activemissions,
+      endedmissions: @endedmissions
+      # requests: @requests ,
+
+    }
+  end
+
   def index
     # if @current_user.role == "admin"
     @users = User.all.select { |m| m.role == 'freelancer' || m.role == 'client' }
@@ -182,18 +224,16 @@ class AdminController < ApplicationController
 
   def getfreelancerbylanguage
     ids = []
-        params[:language_id].split(',').each do |lang_id|
-          ids.push(lang_id.to_i)
-        end
-        
-        @freelancer_languagess = FreelancerLanguage.where(language_id: ids.uniq)
-        
-        @freelancers =  @freelancer_languagess.flat_map{|ml| ml.user }
-        
-        render json: @freelancers.uniq   , methods: [:user_image_url] 
-      end
+    params[:language_id].split(',').each do |lang_id|
+      ids.push(lang_id.to_i)
+    end
 
+    @freelancer_languagess = FreelancerLanguage.where(language_id: ids.uniq)
 
+    @freelancers = @freelancer_languagess.flat_map { |ml| ml.user }
+
+    render json: @freelancers.uniq, methods: [:user_image_url]
+  end
 
   def destroylanguagefreelancer
     @languagesfreelancer = FreelancerLanguage.find(params[:id])
@@ -203,20 +243,22 @@ class AdminController < ApplicationController
   private
 
   def post_paramsFreelancerLangueage
-    params.permit(:languagerate, :language_id )
+    params.permit(:languagerate, :language_id)
   end
 
   def post_paramslanguage
-    params.permit(:freelancer_languages =>[:languagerate] ,:freelancer_languages =>[ :user_id ], :freelancer_languages =>[:language_id] )
+    params.permit(freelancer_languages: [:languagerate], freelancer_languages: [:user_id],
+                  freelancer_languages: [:language_id])
   end
+
   def post_params
     params.permit(:email, :password, :adresse, :lastname, :firstname, :birthday, :sexe, :phone, :job, :description, :avatar,
-                  :github, :facebook, :instagram, :linkedin )
+                  :github, :facebook, :instagram, :linkedin)
   end
 
   def post_paramsFreelancer
     params.permit(:id, :earning, :email, :password, :adresse, :lastname, :firstname, :birthday, :sexe, :phone, :job,
-                  :description, :avatar, :github, :facebook, :instagram, :linkedin , :RIB)
+                  :description, :avatar, :github, :facebook, :instagram, :linkedin, :RIB)
   end
 
   def set_post

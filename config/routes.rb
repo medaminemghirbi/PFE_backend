@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   get 'freelancerdata/:id', to: 'admin#getfreelancerdata'
 
   patch 'updatecompleted/:id', to: 'requests#updatecompleted'
-
   delete 'deleteclient/:client_id', to: 'admin#destroyclient'
 
   get 'missiondata/:id', to: 'admin#getmissiondata'
@@ -102,7 +101,10 @@ Rails.application.routes.draw do
   get 'getmessagebysender/:sender_id/:receiver_id', to: 'message#getmessagebysender'
 
   get 'getmessagebyreceiver/:receiver_id/:sender_id', to: 'message#getmessagebyreceiver'
-
+  
+  get 'countAllFreelancer/:user_id', to: 'admin#countAllFreelancer'
+  
+  get 'countAllClient/:client_id', to: 'admin#countAllClient'
 
   get :homemissions, to: 'missions#homemissions'
 

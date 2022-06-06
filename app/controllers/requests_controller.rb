@@ -96,16 +96,16 @@ end
 end
 
 def updatecompleted 
-    @request = Request.find(params[:id])  
-    @requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).where(freelancer_id: @request.freelancer_id)
+	@request = Request.find(params[:id])  
+	@requestfreelancer = Mission.where("id = ?" ,  @request.mission_id ).where(freelancer_id: @request.freelancer_id)
 
 
-    if @requestfreelancer.update(post_params3)
-        render json:   @requestfreelancer 
+	if @requestfreelancer.update(post_params3)
+			render json:   @requestfreelancer 
 
-    else
-    render json: @request.errors, statut: :unprocessable_entity
-    end
+	else
+	render json: @request.errors, statut: :unprocessable_entity
+	end
 end
   private
 
