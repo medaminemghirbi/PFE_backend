@@ -1,4 +1,4 @@
-class Createrequests < ActiveRecord::Migration[7.0]
+class CreateRequests < ActiveRecord::Migration[7.0]
   def change
     create_table :requests do |t|
       t.integer :status , null:false ,default: 0

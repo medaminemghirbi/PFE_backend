@@ -1,4 +1,4 @@
-class Updaterequests < ActiveRecord::Migration[7.0]
+class UpdateRequests < ActiveRecord::Migration[7.0]
   def change
     add_column :requests, :mission_id, :integer
     add_index  :requests, :mission_id

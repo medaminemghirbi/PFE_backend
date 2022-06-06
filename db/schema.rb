@@ -10,9 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_23_141747) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_06_172444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "Reqeuest", force: :cascade do |t|
+    t.integer "status", null: false
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -128,10 +132,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_141747) do
     t.string "contrat"
     t.string "postulated"
     t.string "filepath"
+    t.integer "budget"
     t.bigint "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "budget"
     t.integer "client_id"
     t.integer "freelancer_id"
     t.integer "requests_count", default: 0
@@ -162,6 +166,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_141747) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "rooms", force: :cascade do |t|
+    t.string "name"
+    t.boolean "is_private", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "lastname", null: false
     t.string "firstname", null: false
@@ -174,6 +185,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_141747) do
     t.integer "phone"
     t.string "job"
     t.string "description"
+    t.string "photo"
     t.integer "earning"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -200,6 +212,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_23_141747) do
   add_foreign_key "freelancer_languages", "users"
   add_foreign_key "mission_languages", "languages"
   add_foreign_key "mission_languages", "missions"
+  add_foreign_key "missions", "categories"
   add_foreign_key "reviews", "missions"
   add_foreign_key "reviews", "users"
 end
