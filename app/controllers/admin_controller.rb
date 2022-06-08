@@ -16,21 +16,21 @@ class AdminController < ApplicationController
     @education = Education.where(user_id: params[:user_id]).count
     @experience = Experience.where(user_id: params[:user_id]).count
     @language = FreelancerLanguage.where(user_id: params[:user_id]).count
-    @activemissions = Mission.where(freelancer_id: params[:user_id]).count
+    @activemissions = Mission.where(freelancer_id: params[:user_id]).where("completed = ?" , status = false ).count
     @endedmissions = Mission.where(freelancer_id: params[:user_id]).where("completed = ?" , status = true ).count
-    @requests = Request.where(freelancer_id: params[:user_id]).where("status = ?" , status = 1 ).count
+    @requests = Request.where(freelancer_id: params[:user_id]).count
+    @favoris = Favori.where(user_id: params[:user_id]).count
 
     render json: {
-      data: 
-      [
+      data:[
         education: @education  ,
       experience: @experience ,
       language: @language , 
       activemissions: @activemissions ,
       endedmissions: @endedmissions ,
-      requests: @requests 
-    ]
-
+      requests: @requests ,
+      favoris: @favoris ,
+      ]
     }
   end
 
@@ -43,8 +43,7 @@ class AdminController < ApplicationController
     # @requests = Request.where(freelancer_id: params[:user_id]).where("status = ?" , status = 1 ).count
  
      render json: {
-      data: 
-      [
+      data:[
       allmissions:  @allmissions ,
       notactivemissions: @notactivemissions ,
        activemissions: @activemissions ,

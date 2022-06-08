@@ -33,22 +33,34 @@ class MissionsController < ApplicationController
             render json: @mission.errors, statut: :unprocessable_entity
         end    
     end   
-
     def show
         @mission = Mission.find(params[:id])
         render json: @mission
         
     end
-
     def update
+        @ids = JSON.parse(params[:language_id], object_class: OpenStruct).pluck(:id).uniq
         @mission = Mission.find(params[:id])
+    
         if @mission.update(post_params2)
-        render json: @mission
-
+                MissionLanguage.where(mission_id: @mission.id).delete_all
+    
+                @ids.each do |lang_id|
+                    @missionLanguages = MissionLanguage.create!(language_id: lang_id, mission_id: @mission.id)
+                end
+    
+    
+          #@missionlanguages = MissionLanguage.where(language_id: @ids, mission_id: @mission.id)
+    
+          render json: {
+            mission: @mission,
+            missionlanguages: @missionlanguages
+          }, statut: :created, location: @mission
+    
         else
-        render json: @mission.errors, statut: :unprocessable_entity
+          render json: @mission.errors, statut: :unprocessable_entity
         end
-    end
+      end
 
     def destroy
         @mission = Mission.find(params[:id])
