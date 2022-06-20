@@ -3,7 +3,7 @@ class AdminController < ApplicationController
   def countAllHome
     @freelancer = Freelancer.all.select { |m| m.role == 'freelancer' }.count
     @client = Client.all.select { |m| m.role == 'client' }.count
-    @mission = Mission.all.count
+    @mission = Mission.where('completed = ?', status = true).count
     render json: {
       data: [@freelancer, @client, @mission]
     }

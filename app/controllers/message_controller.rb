@@ -6,6 +6,7 @@ class MessageController < ApplicationController
       render json: @message, statut: :created, location: @message
 
     else
+      
       render json: @message.errors, statut: :unprocessable_entity
     end
   end
