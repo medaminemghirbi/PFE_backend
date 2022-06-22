@@ -8,7 +8,14 @@ class AdminController < ApplicationController
       data: [@freelancer, @client, @mission]
     }
   end
-
+  def static
+    @freelancer = Freelancer.all.select { |m| m.role == 'freelancer' }.count
+    @client = Client.all.select { |m| m.role == 'client' }.count
+    @mission = Mission.count
+    render json: {
+      data: [@freelancer, @client, @mission]
+    }
+  end
   def countAllFreelancer
     @education = Education.where(user_id: params[:user_id]).count
     @experience = Experience.where(user_id: params[:user_id]).count

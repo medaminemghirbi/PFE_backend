@@ -105,6 +105,7 @@ Rails.application.routes.draw do
   get 'countAllFreelancer/:user_id', to: 'admin#countAllFreelancer'
   
   get 'countAllClient/:client_id', to: 'admin#countAllClient'
+  get 'static', to: 'admin#static'
 
   get :homemissions, to: 'missions#homemissions'
 
